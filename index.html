@@ -229,40 +229,71 @@ window.addEventListener("load", function () {
   const common = {
     responsive: true,
     maintainAspectRatio: false,
-    plugins: { legend: { labels: { usePointStyle: true, boxWidth: 10 } } }
+    plugins: { legend: { labels: { usePointStyle: true, boxWidth: 10, filter: (item) => !!item.text } } }
   };
   const pad = (arr, n) => arr.concat(Array(Math.max(0, n - arr.length)).fill(null));
+  // Last non-null actual value (and its index) in a series
+  const lastActual = (arr) => {
+    for (let i = arr.length - 1; i >= 0; i--) {
+      if (arr[i] != null) return { idx: i, val: arr[i] };
+    }
+    return null;
+  };
   // Flat dashed reference line (level across all years)
   const goal = (label, value, n, dash) => ({ label: label, data: Array(n).fill(value), borderColor: "#059669", borderDash: dash || [6,4], borderWidth: 1.5, pointRadius: 0, pointStyle: "line", fill: false, spanGaps: true });
-  // Plotted 2028 goal marker (triangle at the 2028 category; no connecting line)
+  // Plotted 2028 goal marker (triangle at the 2028 category)
   const goalPoint = (label, value, n) => {
     const data = Array(n).fill(null);
     data[n - 1] = value;
     return { label, data, borderColor: "#059669", backgroundColor: "#059669", pointRadius: 7, pointHoverRadius: 9, pointStyle: "triangle", showLine: false, spanGaps: true };
   };
+  // Dotted trajectory from last actual point to 2028 goal (triangle marker stays separate)
+  const goalPath = (lastIdx, lastVal, goalIdx, goalVal, n, label) => {
+    const data = Array(n).fill(null);
+    data[lastIdx] = lastVal;
+    data[goalIdx] = goalVal;
+    return {
+      label: label == null ? "Path to 2028 goal" : label,
+      data,
+      borderColor: "#059669",
+      borderDash: [4, 4],
+      borderWidth: 1.5,
+      pointRadius: 0,
+      pointHoverRadius: 0,
+      pointStyle: "line",
+      fill: false,
+      spanGaps: true
+    };
+  };
   const mk = (id, cfg) => { try { new Chart(document.getElementById(id), cfg); } catch (e) { console.error(id, e); } };
 
   // Star rating trend with goals projected to 2028 (4★ target year)
   const starLabels = DATA.starTrend.labels.concat(["2026","2027","2028"]);
+  const starLast = lastActual(DATA.starTrend.mission);
   mk("starChart", { type: "line", data: { labels: starLabels, datasets: [
     { label: "Mission summary star", data: pad(DATA.starTrend.mission, starLabels.length), borderColor: "#2563eb", backgroundColor: "#2563eb", pointRadius: 4, tension: 0.25, spanGaps: true },
     goal("Interim: national par (3★)", 3, starLabels.length, [6,4]),
+    ...(starLast ? [goalPath(starLast.idx, starLast.val, starLabels.length - 1, 4, starLabels.length)] : []),
     goalPoint("Goal: 4★ by 2028", 4, starLabels.length)
   ]}, options: { ...common, scales: { y: { min: 0, max: 5, ticks: { stepSize: 1 } } } } });
 
   // Staff-to-bed with 2028 goal marker (same pattern as 4★ HCAHPS target)
   const staffLabels = DATA.staffRatio.labels.concat(["2024","2025","2026","2027","2028"]);
+  const staffLast = lastActual(DATA.staffRatio.ratio);
   mk("staffChart", { type: "line", data: { labels: staffLabels, datasets: [
     { label: "Staff per bed", data: pad(DATA.staffRatio.ratio, staffLabels.length), borderColor: "#b45309", backgroundColor: "#b45309", pointRadius: 5, spanGaps: true },
     goal("Pre-sale reference (~9)", 9, staffLabels.length, [6,4]),
+    ...(staffLast ? [goalPath(staffLast.idx, staffLast.val, staffLabels.length - 1, 9, staffLabels.length)] : []),
     goalPoint("Goal: 9 by 2028", 9, staffLabels.length)
   ]}, options: { ...common, scales: { y: { min: 0, max: 10 } } } });
 
   // Traveler share with 2028 goal marker (same pattern as staff-to-bed / 4★)
   const travLabels = DATA.travelers.labels.concat(["2025","2026","2027","2028"]);
+  const travLast = lastActual(DATA.travelers.pct);
   mk("travelerChart", { type: "line", data: { labels: travLabels, datasets: [
     { label: "% traveler/contract nurses", data: pad(DATA.travelers.pct, travLabels.length), borderColor: "#b45309", backgroundColor: "#b45309", pointRadius: 5, spanGaps: true },
     goal("Industry norm (<10%)", 10, travLabels.length),
+    ...(travLast ? [goalPath(travLast.idx, travLast.val, travLabels.length - 1, 10, travLabels.length)] : []),
     goalPoint("Goal: under 10% by 2028", 10, travLabels.length)
   ]}, options: { ...common, scales: { y: { min: 0, max: 60 } } } });
 
@@ -273,11 +304,15 @@ window.addEventListener("load", function () {
 
   // Good vs bad proxy with 2028 goal markers (80% high / 10% low)
   const gbLabels = DATA.goodBad.labels.concat(["Sep 2026","Dec 2026","Mar 2027","2028"]);
+  const gbHighLast = lastActual(DATA.goodBad.high);
+  const gbLowLast = lastActual(DATA.goodBad.low);
   mk("goodBadChart", { type: "line", data: { labels: gbLabels, datasets: [
     { label: "Rated 9–10 (%)", data: pad(DATA.goodBad.high, gbLabels.length), borderColor: "#2563eb", backgroundColor: "#2563eb", pointRadius: 5, spanGaps: true },
     { label: "Rated ≤6 (%)", data: pad(DATA.goodBad.low, gbLabels.length), borderColor: "#dc2626", backgroundColor: "#dc2626", pointRadius: 5, spanGaps: true },
     goal("Goal high (≥80%)", 80, gbLabels.length),
     goal("Goal low (≤10%)", 10, gbLabels.length, [2,3]),
+    ...(gbHighLast ? [goalPath(gbHighLast.idx, gbHighLast.val, gbLabels.length - 1, 80, gbLabels.length)] : []),
+    ...(gbLowLast ? [goalPath(gbLowLast.idx, gbLowLast.val, gbLabels.length - 1, 10, gbLabels.length, "")] : []),
     goalPoint("Goal: 80% high by 2028", 80, gbLabels.length),
     goalPoint("Goal: 10% low by 2028", 10, gbLabels.length)
   ]}, options: { ...common, scales: { y: { min: 0, max: 100 } } } });
