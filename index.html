@@ -11,7 +11,20 @@
   body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f6f7f9; color: #1a202c; padding: 20px; }
   h1 { font-size: 1.35rem; margin-bottom: 2px; }
   .sub { color: #64748b; font-size: 0.82rem; margin-bottom: 16px; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 14px; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    max-width: 1400px;
+    margin: 0 auto;
+    justify-content: center;
+  }
+  @media (max-width: 1100px) {
+    .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 560px) {
+    .grid { grid-template-columns: 1fr; }
+  }
   .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px 16px; }
   .card h2 { font-size: 0.95rem; margin-bottom: 2px; }
   .card .meta { font-size: 0.72rem; color: #94a3b8; margin-bottom: 8px; }
@@ -111,13 +124,6 @@
 </div>
 
 <div class="card">
-  <h2>Patient experience vs. national average (latest)</h2>
-  <div class="meta">Source: CMS HCAHPS API, surveys Jul 2024–Jun 2025 · national values approximate</div>
-  <span class="goal">Goal: meet or beat national average on every measure</span>
-  <div class="chartbox"><canvas id="hcahpsChart"></canvas></div>
-</div>
-
-<div class="card">
   <h2>Good vs. bad experiences (proxy)</h2>
   <div class="meta">Proxy: HCAHPS % rating hospital 9–10 vs. 6-or-lower, by survey period</div>
   <span class="goal">Goal: high ≥ 80% by 2028 · low ≤ 10% by 2028</span>
@@ -142,6 +148,13 @@
     <div><div class="stat">—</div><div class="statlbl">program-level fill % (added each March from NRMP)</div></div>
   </div>
   <div class="note">NRMP publishes program-level fill/unfilled results annually. Next data point: March 2027 Match.</div>
+</div>
+
+<div class="card">
+  <h2>Patient experience vs. national average (latest)</h2>
+  <div class="meta">Source: CMS HCAHPS API, surveys Jul 2024–Jun 2025 · national values approximate</div>
+  <span class="goal">Goal: meet or beat national average on every measure</span>
+  <div class="chartbox"><canvas id="hcahpsChart"></canvas></div>
 </div>
 
 </div>
