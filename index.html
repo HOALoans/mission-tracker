@@ -137,10 +137,10 @@
 
 <div class="card">
   <h2>Readmissions</h2>
-  <div class="meta">CMS Unplanned Visits + HRRP</div>
+  <div class="meta">CMS Unplanned Visits · Mission vs national %</div>
   <span class="goal">Goal: hold/improve vs national by 2028</span>
   <div class="chartbox"><canvas id="readmChart"></canvas></div>
-  <div class="note">Hospital-wide hybrid readmit 13.8% (better than national).</div>
+  <div class="note">Hospital-wide 13.8% vs national 15.0% (better). AMI also better than national.</div>
 </div>
 
 <div class="card">
@@ -268,7 +268,8 @@ const DATA = {
   },
   readmit: {
     labels: ["Hospital-wide","AMI","HF","Pneumonia","COPD","CABG","Hip/knee"],
-    rate: [13.8,11.3,18.0,14.8,18.1,9.6,4.6]
+    mission: [13.8,11.3,18.0,14.8,18.1,9.6,4.6],
+    national: [15.0,13.6,19.7,16.0,18.2,10.6,4.8]
   },
   psi90: { labels: ["2024*"], score: [0.68] },
   sepsis: { labels: ["2025*"], mission: [63], national: [64] },
@@ -408,7 +409,8 @@ window.addEventListener("load", function () {
   ]}, options: { ...common, indexAxis: "y", scales: { x: { beginAtZero: true, max: 120, title: { display: true, text: "% of national (lower better)", font: { size: 9 } } } } } });
 
   mk("readmChart", { type: "bar", data: { labels: DATA.readmit.labels, datasets: [
-    { label: "Readmit %", data: DATA.readmit.rate, backgroundColor: "#2563eb", borderRadius: 3 }
+    { label: "Mission", data: DATA.readmit.mission, backgroundColor: "#2563eb", borderRadius: 3 },
+    { label: "National", data: DATA.readmit.national, backgroundColor: "#cbd5e1", borderRadius: 3 }
   ]}, options: { ...common, indexAxis: "y", scales: { x: { beginAtZero: true, suggestedMax: 25 } } } });
 
   const psiLabels = ["2024","2025","2026","2027","2028"];

@@ -300,18 +300,43 @@
     "sourceNational": "CMS Complications and Deaths - National qqw3-t4ie"
   },
   "readmissions": {
-    "source": "CMS Unplanned Hospital Visits 632h-zaca + HRRP 9n3s-kdb3",
+    "source": "CMS Unplanned Hospital Visits 632h-zaca; National cvcs-xecj; HRRP 9n3s-kdb3",
     "hybridHospitalWidePct": {
       "value": 13.8,
+      "national": 15.0,
       "vsNational": "Better"
     },
     "rates": {
-      "AMI": 11.3,
-      "HF": 18.0,
-      "PN": 14.8,
-      "COPD": 18.1,
-      "CABG": 9.6,
-      "HIP_KNEE": 4.6
+      "AMI": {
+        "mission": 11.3,
+        "national": 13.6,
+        "vsNational": "Better"
+      },
+      "HF": {
+        "mission": 18.0,
+        "national": 19.7,
+        "vsNational": "No Different"
+      },
+      "PN": {
+        "mission": 14.8,
+        "national": 16.0,
+        "vsNational": "No Different"
+      },
+      "COPD": {
+        "mission": 18.1,
+        "national": 18.2,
+        "vsNational": "No Different"
+      },
+      "CABG": {
+        "mission": 9.6,
+        "national": 10.6,
+        "vsNational": "No Different"
+      },
+      "HIP_KNEE": {
+        "mission": 4.6,
+        "national": 4.8,
+        "vsNational": "No Different"
+      }
     },
     "goal": "Hold/improve vs national by 2028"
   },
