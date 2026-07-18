@@ -26,6 +26,32 @@
   .err { color: #b91c1c; font-size: 0.8rem; padding: 8px 0; display: none; }
   footer { font-size: 0.72rem; color: #94a3b8; margin-top: 18px; line-height: 1.6; }
   footer a { color: #64748b; }
+
+  /* Year status strip — better than bars for rare 0/1 events */
+  .yearstrip { display: flex; gap: 6px; flex-wrap: wrap; margin: 10px 0 6px; }
+  .yearcell {
+    flex: 1 1 52px; min-width: 52px; max-width: 72px;
+    border-radius: 8px; border: 1px solid #e2e8f0; padding: 10px 4px 8px;
+    text-align: center; background: #f8fafc;
+  }
+  .yearcell .yr { display: block; font-size: 0.72rem; font-weight: 600; color: #475569; margin-bottom: 6px; }
+  .yearcell .mark {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px; border-radius: 50%; font-size: 0.7rem; font-weight: 700;
+  }
+  .yearcell.clear .mark { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
+  .yearcell.ij { background: #fef2f2; border-color: #fecaca; }
+  .yearcell.ij .mark { background: #dc2626; color: #fff; }
+  .yearcell.future { background: #fff; border-style: dashed; border-color: #86efac; }
+  .yearcell.future .yr { color: #059669; }
+  .yearcell.future .mark { background: #ecfdf5; color: #047857; border: 1px dashed #6ee7b7; }
+  .yearcell.goal2028 { box-shadow: inset 0 0 0 1px #059669; }
+  .striplegend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 0.7rem; color: #64748b; margin: 4px 0 2px; }
+  .striplegend span { display: inline-flex; align-items: center; gap: 5px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .dot.ij { background: #dc2626; }
+  .dot.clear { background: #ecfdf5; border: 1px solid #a7f3d0; }
+  .dot.goal { background: #ecfdf5; border: 1px dashed #059669; }
 </style>
 </head>
 <body>
@@ -48,8 +74,13 @@
 <div class="card">
   <h2>Immediate Jeopardy &amp; EMTALA findings by year</h2>
   <div class="meta">Source: CMS/NCDHHS inspection reports (Form 2567), by year of designation</div>
-  <span class="goal">Goal: zero per year, sustained</span>
-  <div class="chartbox"><canvas id="ijChart"></canvas></div>
+  <span class="goal">Goal: 0 IJ designations by 2028, sustained</span>
+  <div class="striplegend">
+    <span><i class="dot ij"></i> IJ year</span>
+    <span><i class="dot clear"></i> Clear (0)</span>
+    <span><i class="dot goal"></i> Goal years → 0 by 2028</span>
+  </div>
+  <div class="yearstrip" id="ijStrip" aria-label="Immediate Jeopardy by year"></div>
   <div class="note">2021: patient found dying on floor · Dec 2023–Feb 2024: IJ + EMTALA violation (18 harmed, 4 deaths) · Oct 2025: preventable death, unsafe transport, infection control · Jan 2026: repeat findings, removed Mar 4, 2026.</div>
 </div>
 
@@ -120,7 +151,12 @@
 // ===== DATA (edited by quarterly refresh task — append new snapshots, don't overwrite history) =====
 const DATA = {
   lastRefresh: "2026-07-18",
-  ij: { years: ["2019","2020","2021","2022","2023","2024","2025","2026"], counts: [0,0,1,0,0,1,1,1] },
+  ij: {
+    years: ["2019","2020","2021","2022","2023","2024","2025","2026"],
+    counts: [0,0,1,0,0,1,1,1],
+    goalYear: "2028",
+    goalCount: 0
+  },
   // Summary star by year; 2018-2024 from Watchdog/Wake Forest reporting on CMS archives; latest from CMS API
   starTrend: { labels: ["2018","2019","2020","2021","2022","2023","2024","2025*"], mission: [4,2,2,2,1,1,1,2] },
   staffRatio: { labels: ["2018","2023"], ratio: [9.1,4.7] },
@@ -137,6 +173,30 @@ const DATA = {
 
 window.addEventListener("load", function () {
   document.getElementById("lastRefresh").textContent = DATA.lastRefresh;
+
+  // IJ year strip (0/1 events read better as status cells than bars)
+  (function renderIjStrip() {
+    const strip = document.getElementById("ijStrip");
+    const byYear = Object.fromEntries(DATA.ij.years.map((y, i) => [y, DATA.ij.counts[i]]));
+    const start = Number(DATA.ij.years[0]);
+    const end = Number(DATA.ij.goalYear || 2028);
+    for (let y = start; y <= end; y++) {
+      const key = String(y);
+      const cell = document.createElement("div");
+      const known = Object.prototype.hasOwnProperty.call(byYear, key);
+      const count = known ? byYear[key] : null;
+      let cls = "yearcell";
+      let mark = "0";
+      if (known && count > 0) { cls += " ij"; mark = String(count); }
+      else if (known) { cls += " clear"; mark = "0"; }
+      else { cls += " future"; mark = "0"; }
+      if (key === String(DATA.ij.goalYear)) cls += " goal2028";
+      cell.className = cls;
+      cell.innerHTML = `<span class="yr">${key}</span><span class="mark" title="${known ? (count ? count + " IJ" : "Clear") : "Goal: 0"}">${mark}</span>`;
+      strip.appendChild(cell);
+    }
+  })();
+
   if (typeof Chart === "undefined") { document.getElementById("loadErr").style.display = "block"; return; }
 
   Chart.defaults.font.size = 11;
@@ -155,11 +215,6 @@ window.addEventListener("load", function () {
     goal("Interim: national par (3★)", 3, starLabels.length, [6,4]),
     { label: "Goal: 4★ by 2028", data: starGoal4, borderColor: "#059669", backgroundColor: "#059669", pointRadius: 7, pointStyle: "triangle", showLine: false, spanGaps: true }
   ]}, options: { ...common, scales: { y: { min: 0, max: 5, ticks: { stepSize: 1 } } } } });
-
-  mk("ijChart", { type: "bar", data: { labels: DATA.ij.years, datasets: [
-    { label: "IJ designations", data: DATA.ij.counts, backgroundColor: "#dc2626", borderRadius: 4 },
-    { ...goal("Goal (0)", 0, DATA.ij.years.length), type: "line" }
-  ]}, options: { ...common, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } } });
 
   const staffLabels = DATA.staffRatio.labels.concat(["2024","2025","2026"]);
   mk("staffChart", { type: "line", data: { labels: staffLabels, datasets: [

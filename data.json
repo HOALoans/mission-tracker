@@ -3,7 +3,7 @@
   "lastRefresh": "2026-07-18",
   "immediateJeopardy": {
     "source": "CMS/NCDHHS inspection reports (Form 2567)",
-    "goal": "Zero designations per year, sustained",
+    "goal": "0 designations by 2028, sustained",
     "byYear": { "2019": 0, "2020": 0, "2021": 1, "2022": 0, "2023": 0, "2024": 1, "2025": 1, "2026": 1 },
     "events": [
       { "date": "2021", "note": "IJ #1 — patient found dying on floor, IV disconnected" },
