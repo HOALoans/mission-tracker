@@ -370,7 +370,7 @@ window.addEventListener("load", function () {
     { label: "Fill %", data: pad(DATA.matchFill.pct, matchLabels.length), borderColor: "#2563eb", backgroundColor: "#2563eb", pointRadius: 4, spanGaps: true },
     ...(matchLast ? [goalPath(matchLast.idx, matchLast.val, matchLabels.length - 1, 100, matchLabels.length)] : []),
     goalPoint("Goal 100%", 100, matchLabels.length)
-  ]}, options: { ...common, scales: { y: { min: 75, max: 105 } } } });
+  ]}, options: { ...common, scales: { y: { min: 78, max: 102, ticks: { stepSize: 2 } } } } });
 
   const gbLabels = DATA.goodBad.labels.concat(["2026","2027","2028"]);
   const gbH = lastActual(DATA.goodBad.high), gbL = lastActual(DATA.goodBad.low);
