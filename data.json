@@ -1,0 +1,70 @@
+{
+  "hospital": { "name": "Mission Hospital", "city": "Asheville, NC", "ccn": "340002", "owner": "HCA Healthcare (since Feb 2019)" },
+  "lastRefresh": "2026-07-18",
+  "immediateJeopardy": {
+    "source": "CMS/NCDHHS inspection reports (Form 2567)",
+    "goal": "Zero designations per year, sustained",
+    "byYear": { "2019": 0, "2020": 0, "2021": 1, "2022": 0, "2023": 0, "2024": 1, "2025": 1, "2026": 1 },
+    "events": [
+      { "date": "2021", "note": "IJ #1 — patient found dying on floor, IV disconnected" },
+      { "date": "2023-12 to 2024-02", "note": "IJ #2 + EMTALA violation — 18 patients harmed 2022-23, 4 deaths (ED and oncology); 384-page CMS report Feb 15, 2024" },
+      { "date": "2025-10", "note": "IJ #3 — preventable death, unsafe transport, misidentification, infection control" },
+      { "date": "2026-01", "note": "IJ #4 — repeat findings; removed 2026-03-04 after Enhanced Plan of Correction approved 2026-01-29" }
+    ],
+    "currentStatus": "Not under IJ as of 2026-03-04"
+  },
+  "hcahps": {
+    "source": "CMS Provider Data Catalog, dataset dgck-syfz; updates quarterly",
+    "apiUrl": "https://data.cms.gov/provider-data/api/1/datastore/query/dgck-syfz/0?conditions[0][property]=facility_id&conditions[0][value]=340002&limit=100",
+    "surveyPeriod": "2024-07-01 to 2025-06-30",
+    "summaryStarByYear": {
+      "2018": 4, "2019": 2, "2020": 2, "2021": 2, "2022": 1, "2023": 1, "2024": 1, "2025": 2,
+      "note": "2018-2024 compiled from Asheville Watchdog / Wake Forest analyses of CMS archives; 2025 from current CMS API"
+    },
+    "goal": "3 stars (national par) by 2028; 4 stars long-range (pre-sale level)",
+    "componentStars": { "nurseCommunication": 2, "doctorCommunication": 2, "medicinesCommunication": 2, "dischargeInfo": 2, "cleanliness": 1, "quietness": 3, "overallRating": 2, "recommend": 2, "summary": 2 },
+    "measuresVsNational": {
+      "note": "national values approximate",
+      "nursesAlwaysCommunicated": { "mission": 72, "national": 79 },
+      "doctorsAlwaysCommunicated": { "mission": 73, "national": 80 },
+      "roomAlwaysClean": { "mission": 51, "national": 72 },
+      "alwaysQuietAtNight": { "mission": 52, "national": 62 },
+      "rated9or10": { "mission": 58, "national": 71 },
+      "definitelyRecommend": { "mission": 53, "national": 69 }
+    },
+    "goodVsBadProxy": { "rated9or10": 58, "rated6orLower": 16, "goal": "high >= 71, low <= 8" }
+  },
+  "staffing": {
+    "staffToBedRatio": {
+      "source": "Medicare cost reports via Wake Forest report (NC Health News, 2025-02-08)",
+      "byYear": { "2018": 9.1, "2023": 4.7 },
+      "goal": "Return toward pre-sale ~9"
+    },
+    "travelers": {
+      "source": "News-reported estimates; audited data from Medicare cost report Worksheet S-3 (contract labor hours vs employed), ~1yr lag",
+      "estimates": [
+        { "period": "2024", "pct": 40, "basis": "union nurse statement; staff estimated ~50% in some units" },
+        { "period": "2022-07 to 2024-04", "note": "~1,550 travelers on 2,680+ contracts" }
+      ],
+      "context": "660+ RNs lost across HCA Asheville facilities 2022-23; ~1,500 temps hired; 182 open nursing positions listed 2024-04; HCA planned ~800 FTE cuts at purchase",
+      "goal": "Under 10% travelers (industry norm)"
+    },
+    "costReportDownload": "https://www.cms.gov/data-research/statistics-trends-and-reports/cost-reports/cost-reports-fiscal-year (HCRIS, Form 2552-10, Worksheet S-3 Parts II/V; filter provider 340002)"
+  },
+  "physicians": {
+    "source": "CMS Doctors & Clinicians facility affiliation dataset 27ea-46a8",
+    "apiUrl": "https://data.cms.gov/provider-data/api/1/datastore/query/27ea-46a8/0?conditions[0][property]=facility_affiliations_certification_number&conditions[0][value]=340002&limit=1&results=false&schema=false",
+    "snapshots": [ { "date": "2026-07", "affiliatedClinicians": 1621 } ],
+    "goal": "Stable or growing count (proxy for practices attracting/retaining physicians)"
+  },
+  "residency": {
+    "source": "NRMP Match results, annual each March (program-level); MAHEC + Mission/HCA GME programs",
+    "latestReported": { "classSize": 75, "note": "residents & fellows welcomed, most recent reported class" },
+    "goal": "100% fill in main Match, no SOAP reliance",
+    "nextDataPoint": "March 2027"
+  },
+  "notReportable": {
+    "goodVsBadExperienceReports": "No official dataset; proxies are HCAHPS 9-10 vs <=6 ratings or review sentiment",
+    "practicePhysicianRetention": "Not publicly reported; CMS affiliation count is the proxy"
+  }
+}

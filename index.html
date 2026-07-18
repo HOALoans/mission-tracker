@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mission Hospital Accountability Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js" integrity="sha384-iU8HYtnGQ8Cy4zl7gbNMOhsDTTKX02BTXptVP/vqAWIaTfM7isw76iyZCsjL2eVi" crossorigin="anonymous"></script>
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f6f7f9; color: #1a202c; padding: 20px; }
+  h1 { font-size: 1.35rem; margin-bottom: 2px; }
+  .sub { color: #64748b; font-size: 0.82rem; margin-bottom: 16px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 14px; }
+  .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px 16px; }
+  .card h2 { font-size: 0.95rem; margin-bottom: 2px; }
+  .card .meta { font-size: 0.72rem; color: #94a3b8; margin-bottom: 8px; }
+  .goal { display: inline-block; background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; border-radius: 999px; font-size: 0.7rem; padding: 1px 8px; margin-bottom: 8px; }
+  .chartbox { position: relative; height: 230px; }
+  .stat { font-size: 1.7rem; font-weight: 700; }
+  .statrow { display: flex; gap: 18px; flex-wrap: wrap; margin: 6px 0 10px; }
+  .statlbl { font-size: 0.72rem; color: #64748b; }
+  .warn { color: #b45309; }
+  .note { font-size: 0.75rem; color: #64748b; line-height: 1.45; margin-top: 8px; }
+  .banner { background: #fff7ed; border: 1px solid #fed7aa; border-radius: 10px; padding: 10px 14px; font-size: 0.8rem; margin-bottom: 14px; }
+  .err { color: #b91c1c; font-size: 0.8rem; padding: 8px 0; display: none; }
+  footer { font-size: 0.72rem; color: #94a3b8; margin-top: 18px; line-height: 1.6; }
+  footer a { color: #64748b; }
+</style>
+</head>
+<body>
+<h1>Mission Hospital (Asheville, NC) — Recovery Tracker</h1>
+<div class="sub">CCN 340002 · Last refreshed <span id="lastRefresh"></span> · CMS survey data updates quarterly; cost reports &amp; Match results annually</div>
+<div class="err" id="loadErr">Charts could not load (Chart.js CDN unavailable). Data is preserved — try reloading.</div>
+
+<div class="banner"><strong>Current status:</strong> Not under Immediate Jeopardy — 4th IJ (designated Jan 2026) removed March 4, 2026 after CMS approved an Enhanced Plan of Correction. Four IJs since the 2019 HCA sale.</div>
+
+<div class="grid">
+
+<div class="card">
+  <h2>HCAHPS patient-survey star rating, 2018–present</h2>
+  <div class="meta">Source: CMS Care Compare archives (via Asheville Watchdog / Wake Forest analyses) + current CMS API · 5-star scale</div>
+  <span class="goal">Goal: 3★ (national par) by 2028 · 4★ long-range (pre-sale level)</span>
+  <div class="chartbox"><canvas id="starChart"></canvas></div>
+  <div class="note">4★ before the 2019 HCA sale → 2★ in HCA's first year → 1★ by 2022. Latest CMS file (surveys Jul 2024–Jun 2025): back to 2★. Component stars: cleanliness 1★, nurse/doctor communication 2★, recommend 2★.</div>
+</div>
+
+<div class="card">
+  <h2>Immediate Jeopardy &amp; EMTALA findings by year</h2>
+  <div class="meta">Source: CMS/NCDHHS inspection reports (Form 2567), by year of designation</div>
+  <span class="goal">Goal: zero per year, sustained</span>
+  <div class="chartbox"><canvas id="ijChart"></canvas></div>
+  <div class="note">2021: patient found dying on floor · Dec 2023–Feb 2024: IJ + EMTALA violation (18 harmed, 4 deaths) · Oct 2025: preventable death, unsafe transport, infection control · Jan 2026: repeat findings, removed Mar 4, 2026.</div>
+</div>
+
+<div class="card">
+  <h2>Staffing level (staff-to-bed ratio)</h2>
+  <div class="meta">Source: Medicare cost reports, via Wake Forest / NC Health News analysis · annual, ~1-yr lag</div>
+  <span class="goal">Goal: return toward pre-sale ratio (~9)</span>
+  <div class="chartbox"><canvas id="staffChart"></canvas></div>
+  <div class="note">Best available proxy for "overall number of nurses": total staff per bed fell from 9.1 (2018, pre-sale) to 4.7 (2023). New cost-report years get appended as CMS releases them. Context: HCA planned ~800 FTE cuts at purchase; 660+ RNs left HCA's Asheville facilities 2022–23; 182 open nursing positions listed Apr 2024.</div>
+</div>
+
+<div class="card">
+  <h2>Traveler / contract nurse share (proxy)</h2>
+  <div class="meta">Sources: union &amp; staff estimates (news-reported); audited cost-report contract-labor split added annually</div>
+  <span class="goal">Goal: under 10% travelers (industry norm)</span>
+  <div class="chartbox"><canvas id="travelerChart"></canvas></div>
+  <div class="note">~1,550 travelers on 2,680+ contracts Jul 2022–Apr 2024. Union estimated ~40% travelers in 2024; staff nurses estimated ~50% in some units. Worksheet S-3 contract-labor hours will replace estimates as cost reports post.</div>
+</div>
+
+<div class="card">
+  <h2>Patient experience vs. national average (latest)</h2>
+  <div class="meta">Source: CMS HCAHPS API, surveys Jul 2024–Jun 2025 · national values approximate</div>
+  <span class="goal">Goal: meet or beat national average on every measure</span>
+  <div class="chartbox"><canvas id="hcahpsChart"></canvas></div>
+</div>
+
+<div class="card">
+  <h2>Good vs. bad experiences (proxy)</h2>
+  <div class="meta">Proxy: HCAHPS % rating hospital 9–10 vs. 6-or-lower, by survey period</div>
+  <span class="goal">Goal: high ≥ 71% (national avg) · low ≤ 8%</span>
+  <div class="chartbox"><canvas id="goodBadChart"></canvas></div>
+  <div class="note">Not an official "good vs bad reports" metric — closest standardized measure. Currently 58% high vs 16% low (~3.6:1). Quarterly snapshots build the trend.</div>
+</div>
+
+<div class="card">
+  <h2>Physicians affiliated with Mission</h2>
+  <div class="meta">Source: CMS Doctors &amp; Clinicians facility-affiliation file · quarterly snapshot count</div>
+  <span class="goal">Goal: stable or growing count</span>
+  <div class="chartbox"><canvas id="physChart"></canvas></div>
+  <div class="note">Proxy for "practices can attract and retain physicians." Baseline 1,621 clinicians (Jul 2026); trend fills in with each quarterly refresh.</div>
+</div>
+
+<div class="card">
+  <h2>Residency match fill (MAHEC / Mission GME)</h2>
+  <div class="meta">Source: NRMP Match results, annual (each March)</div>
+  <span class="goal">Goal: 100% fill in the main Match, no SOAP reliance</span>
+  <div class="statrow">
+    <div><div class="stat warn">75</div><div class="statlbl">residents &amp; fellows welcomed (most recent reported class)</div></div>
+    <div><div class="stat">—</div><div class="statlbl">program-level fill % (added each March from NRMP)</div></div>
+  </div>
+  <div class="note">NRMP publishes program-level fill/unfilled results annually. Next data point: March 2027 Match.</div>
+</div>
+
+</div>
+
+<footer>
+  Sources: <a href="https://data.cms.gov/provider-data/dataset/dgck-syfz">CMS HCAHPS</a> ·
+  <a href="https://www.medicare.gov/care-compare/details/hospital/340002">Care Compare</a> ·
+  <a href="https://www.cms.gov/data-research/statistics-trends-and-reports/cost-reports">Medicare cost reports</a> ·
+  <a href="https://www.nrmp.org/">NRMP</a> ·
+  <a href="https://avlwatchdog.org/">Asheville Watchdog</a> ·
+  <a href="https://www.northcarolinahealthnews.org/2025/02/08/hcas-purchase-of-mission-health-did-not-lead-to-lasting-improvements-wake-forest-academic-report-concludes/">Wake Forest report (NC Health News)</a> ·
+  <a href="https://carolinapublicpress.org/">Carolina Public Press</a>.
+  Pre-2026 star ratings and staffing ratios compiled from published analyses of CMS archives; news-sourced values are estimates, not audited figures.
+</footer>
+
+<script>
+// ===== DATA (edited by quarterly refresh task — append new snapshots, don't overwrite history) =====
+const DATA = {
+  lastRefresh: "2026-07-18",
+  ij: { years: ["2019","2020","2021","2022","2023","2024","2025","2026"], counts: [0,0,1,0,0,1,1,1] },
+  // Summary star by year; 2018-2024 from Watchdog/Wake Forest reporting on CMS archives; latest from CMS API
+  starTrend: { labels: ["2018","2019","2020","2021","2022","2023","2024","2025*"], mission: [4,2,2,2,1,1,1,2] },
+  staffRatio: { labels: ["2018","2023"], ratio: [9.1,4.7] },
+  hcahps: {
+    measures: ["Nurses always communicated","Doctors always communicated","Room always clean","Always quiet at night","Rated 9–10","Definitely recommend"],
+    mission: [72,73,51,52,58,53],
+    national: [79,80,72,62,71,69]
+  },
+  goodBad: { labels: ["Jun 2025"], high: [58], low: [16] },
+  travelers: { labels: ["2022","2024"], pct: [null,40] },
+  physicians: { labels: ["Jul 2026"], count: [1621] }
+};
+// ==================================================================================================
+
+window.addEventListener("load", function () {
+  document.getElementById("lastRefresh").textContent = DATA.lastRefresh;
+  if (typeof Chart === "undefined") { document.getElementById("loadErr").style.display = "block"; return; }
+
+  Chart.defaults.font.size = 11;
+  Chart.defaults.color = "#475569";
+  const common = { responsive: true, maintainAspectRatio: false };
+  const pad = (arr, n) => arr.concat(Array(Math.max(0, n - arr.length)).fill(null));
+  const goal = (label, value, n, dash) => ({ label: label, data: Array(n).fill(value), borderColor: "#059669", borderDash: dash || [6,4], borderWidth: 1.5, pointRadius: 0, fill: false, spanGaps: true });
+  const mk = (id, cfg) => { try { new Chart(document.getElementById(id), cfg); } catch (e) { console.error(id, e); } };
+
+  // Star rating trend with goal lines projected to 2028
+  const starLabels = DATA.starTrend.labels.concat(["2026","2027","2028"]);
+  mk("starChart", { type: "line", data: { labels: starLabels, datasets: [
+    { label: "Mission summary star", data: pad(DATA.starTrend.mission, starLabels.length), borderColor: "#2563eb", backgroundColor: "#2563eb", pointRadius: 4, tension: 0.25, spanGaps: true },
+    goal("Goal: national par (3★)", 3, starLabels.length),
+    goal("Long-range: 4★ (pre-sale)", 4, starLabels.length, [2,3])
+  ]}, options: { ...common, scales: { y: { min: 0, max: 5, ticks: { stepSize: 1 } } } } });
+
+  mk("ijChart", { type: "bar", data: { labels: DATA.ij.years, datasets: [
+    { label: "IJ designations", data: DATA.ij.counts, backgroundColor: "#dc2626", borderRadius: 4 },
+    { ...goal("Goal (0)", 0, DATA.ij.years.length), type: "line" }
+  ]}, options: { ...common, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } } });
+
+  const staffLabels = DATA.staffRatio.labels.concat(["2024","2025","2026"]);
+  mk("staffChart", { type: "line", data: { labels: staffLabels, datasets: [
+    { label: "Staff per bed", data: pad(DATA.staffRatio.ratio, staffLabels.length), borderColor: "#b45309", backgroundColor: "#b45309", pointRadius: 5, spanGaps: true },
+    goal("Goal (~9, pre-sale)", 9, staffLabels.length)
+  ]}, options: { ...common, scales: { y: { min: 0, max: 10 } } } });
+
+  const travLabels = DATA.travelers.labels.concat(["2025","2026","2027"]);
+  mk("travelerChart", { type: "line", data: { labels: travLabels, datasets: [
+    { label: "% traveler/contract nurses", data: pad(DATA.travelers.pct, travLabels.length), borderColor: "#b45309", backgroundColor: "#b45309", pointRadius: 5, spanGaps: true },
+    goal("Goal (<10%)", 10, travLabels.length)
+  ]}, options: { ...common, scales: { y: { min: 0, max: 60 } } } });
+
+  mk("hcahpsChart", { type: "bar", data: { labels: DATA.hcahps.measures, datasets: [
+    { label: "Mission %", data: DATA.hcahps.mission, backgroundColor: "#2563eb", borderRadius: 4 },
+    { label: "National avg % (approx.)", data: DATA.hcahps.national, backgroundColor: "#cbd5e1", borderRadius: 4 }
+  ]}, options: { ...common, indexAxis: "y", scales: { x: { min: 0, max: 100 } } } });
+
+  const gbLabels = DATA.goodBad.labels.concat(["Sep 2026","Dec 2026","Mar 2027"]);
+  mk("goodBadChart", { type: "line", data: { labels: gbLabels, datasets: [
+    { label: "Rated 9–10 (%)", data: pad(DATA.goodBad.high, gbLabels.length), borderColor: "#2563eb", backgroundColor: "#2563eb", pointRadius: 5, spanGaps: true },
+    { label: "Rated ≤6 (%)", data: pad(DATA.goodBad.low, gbLabels.length), borderColor: "#dc2626", backgroundColor: "#dc2626", pointRadius: 5, spanGaps: true },
+    goal("Goal high (71%)", 71, gbLabels.length)
+  ]}, options: { ...common, scales: { y: { min: 0, max: 100 } } } });
+
+  const phLabels = DATA.physicians.labels.concat(["Oct 2026","Jan 2027","Apr 2027"]);
+  mk("physChart", { type: "line", data: { labels: phLabels, datasets: [
+    { label: "Affiliated clinicians", data: pad(DATA.physicians.count, phLabels.length), borderColor: "#2563eb", backgroundColor: "#2563eb", pointRadius: 5, spanGaps: true },
+    goal("Goal (hold ≥ 1,621 baseline)", 1621, phLabels.length)
+  ]}, options: { ...common, scales: { y: { min: 1400, max: 1900 } } } });
+});
+</script>
+</body>
+</html>
