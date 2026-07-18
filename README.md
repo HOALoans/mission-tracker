@@ -1,4 +1,4 @@
-# Mission Hospital Recovery Tracker
+# Mission Hospital (Asheville, NC) - Road to Recovery Dashboard
 
 Public dashboard tracking Mission Hospital (Asheville, NC — CMS CCN 340002) against long-range recovery goals after the 2019 HCA acquisition.
 
