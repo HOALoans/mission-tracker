@@ -429,17 +429,17 @@ window.addEventListener("load", function () {
   mk("mortChart", { type: "bar", data: { labels: DATA.mortality.labels, datasets: [
     { label: "Mission", data: DATA.mortality.mission, backgroundColor: "#2563eb", borderRadius: 3 },
     { label: "National", data: DATA.mortality.national, backgroundColor: "#94a3b8", borderRadius: 3 }
-  ]}, options: { ...common, indexAxis: "y", scales: { x: { min: 0, max: 18 } }, datasets: { bar: { categoryPercentage: 0.8, barPercentage: 0.9 } } } } });
+  ]}, options: { ...common, indexAxis: "y", scales: { x: { min: 0, max: 18 } } } });
 
   const compColors = DATA.complications.status.map(s => s === "Better" ? "#059669" : s === "Worse" ? "#dc2626" : "#64748b");
   mk("compChart", { type: "bar", data: { labels: DATA.complications.labels, datasets: [
     { label: "Mission as % of national (100=natl)", data: DATA.complications.pctOfNational, backgroundColor: compColors, borderRadius: 3 }
-  ]}, options: { ...common, indexAxis: "y", plugins: { ...common.plugins, annotation: undefined }, scales: { x: { min: 0, max: 110, title: { display: true, text: "% of national — 100 = national (lower better)", font: { size: 9 } }, grid: { color: (ctx) => ctx.tick.value === 100 ? "#059669" : "rgba(0,0,0,0.06)" } } }, datasets: { bar: { categoryPercentage: 0.75, barPercentage: 0.9 } } } } });
+  ]}, options: { ...common, indexAxis: "y", scales: { x: { min: 0, max: 110, title: { display: true, text: "% of national — 100 = national (lower better)", font: { size: 9 } } } } } });
 
   mk("readmChart", { type: "bar", data: { labels: DATA.readmit.labels, datasets: [
     { label: "Mission", data: DATA.readmit.mission, backgroundColor: "#2563eb", borderRadius: 3 },
     { label: "National", data: DATA.readmit.national, backgroundColor: "#94a3b8", borderRadius: 3 }
-  ]}, options: { ...common, indexAxis: "y", scales: { x: { min: 0, max: 22 } }, datasets: { bar: { categoryPercentage: 0.8, barPercentage: 0.9 } } } } });
+  ]}, options: { ...common, indexAxis: "y", scales: { x: { min: 0, max: 22 } } } });
 
   const psiLabels = ["2024","2025","2026","2027","2028"];
   mk("psiChart", { type: "line", data: { labels: psiLabels, datasets: [
