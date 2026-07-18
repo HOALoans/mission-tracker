@@ -87,9 +87,9 @@
 <div class="card">
   <h2>Staffing level (staff-to-bed ratio)</h2>
   <div class="meta">Source: Medicare cost reports, via Wake Forest / NC Health News analysis · annual, ~1-yr lag</div>
-  <span class="goal">Goal: return toward pre-sale ratio (~9)</span>
+  <span class="goal">Goal: 9 by 2028 (pre-sale level)</span>
   <div class="chartbox"><canvas id="staffChart"></canvas></div>
-  <div class="note">Best available proxy for "overall number of nurses": total staff per bed fell from 9.1 (2018, pre-sale) to 4.7 (2023). New cost-report years get appended as CMS releases them. Context: HCA planned ~800 FTE cuts at purchase; 660+ RNs left HCA's Asheville facilities 2022–23; 182 open nursing positions listed Apr 2024.</div>
+  <div class="note">Best available proxy for "overall number of nurses": total staff per bed fell from 9.1 (2018, pre-sale) to 4.7 (2023). No audited 2024+ ratio published yet in this series; new cost-report years get appended as CMS releases them. Context: HCA planned ~800 FTE cuts at purchase; 660+ RNs left HCA's Asheville facilities 2022–23; 182 open nursing positions listed Apr 2024.</div>
 </div>
 
 <div class="card">
@@ -216,10 +216,14 @@ window.addEventListener("load", function () {
     { label: "Goal: 4★ by 2028", data: starGoal4, borderColor: "#059669", backgroundColor: "#059669", pointRadius: 7, pointStyle: "triangle", showLine: false, spanGaps: true }
   ]}, options: { ...common, scales: { y: { min: 0, max: 5, ticks: { stepSize: 1 } } } } });
 
-  const staffLabels = DATA.staffRatio.labels.concat(["2024","2025","2026"]);
+  // Staff-to-bed with 2028 goal marker (same pattern as 4★ HCAHPS target)
+  const staffLabels = DATA.staffRatio.labels.concat(["2024","2025","2026","2027","2028"]);
+  const staffGoal9 = Array(staffLabels.length).fill(null);
+  staffGoal9[staffLabels.length - 1] = 9; // goal of 9 marked at 2028
   mk("staffChart", { type: "line", data: { labels: staffLabels, datasets: [
     { label: "Staff per bed", data: pad(DATA.staffRatio.ratio, staffLabels.length), borderColor: "#b45309", backgroundColor: "#b45309", pointRadius: 5, spanGaps: true },
-    goal("Goal (~9, pre-sale)", 9, staffLabels.length)
+    goal("Pre-sale reference (~9)", 9, staffLabels.length, [6,4]),
+    { label: "Goal: 9 by 2028", data: staffGoal9, borderColor: "#059669", backgroundColor: "#059669", pointRadius: 7, pointStyle: "triangle", showLine: false, spanGaps: true }
   ]}, options: { ...common, scales: { y: { min: 0, max: 10 } } } });
 
   const travLabels = DATA.travelers.labels.concat(["2025","2026","2027"]);

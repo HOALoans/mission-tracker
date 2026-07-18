@@ -38,7 +38,8 @@
     "staffToBedRatio": {
       "source": "Medicare cost reports via Wake Forest report (NC Health News, 2025-02-08)",
       "byYear": { "2018": 9.1, "2023": 4.7 },
-      "goal": "Return toward pre-sale ~9"
+      "goal": "9 by 2028 (pre-sale level)",
+      "note": "No audited 2024+ ratio published yet in this staff-to-bed series (Wake Forest / NC Health News / antitrust expert analyses of Medicare cost reports). Different FTE-per-occupied-bed series (e.g. 6.0 in 2018 → 3.7 in 2021) exists but is not mixed here."
     },
     "travelers": {
       "source": "News-reported estimates; audited data from Medicare cost report Worksheet S-3 (contract labor hours vs employed), ~1yr lag",
