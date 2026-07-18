@@ -21,7 +21,7 @@
       "2018": 4, "2019": 2, "2020": 2, "2021": 2, "2022": 1, "2023": 1, "2024": 1, "2025": 2,
       "note": "2018-2024 compiled from Asheville Watchdog / Wake Forest analyses of CMS archives; 2025 from current CMS API"
     },
-    "goal": "3 stars (national par) by 2028; 4 stars long-range (pre-sale level)",
+    "goal": "4 stars by 2028 (pre-sale level); 3 stars interim (national par)",
     "componentStars": { "nurseCommunication": 2, "doctorCommunication": 2, "medicinesCommunication": 2, "dischargeInfo": 2, "cleanliness": 1, "quietness": 3, "overallRating": 2, "recommend": 2, "summary": 2 },
     "measuresVsNational": {
       "note": "national values approximate",

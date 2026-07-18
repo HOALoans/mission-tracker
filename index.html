@@ -40,7 +40,7 @@
 <div class="card">
   <h2>HCAHPS patient-survey star rating, 2018–present</h2>
   <div class="meta">Source: CMS Care Compare archives (via Asheville Watchdog / Wake Forest analyses) + current CMS API · 5-star scale</div>
-  <span class="goal">Goal: 3★ (national par) by 2028 · 4★ long-range (pre-sale level)</span>
+  <span class="goal">Goal: 4★ by 2028 (pre-sale level) · 3★ interim (national par)</span>
   <div class="chartbox"><canvas id="starChart"></canvas></div>
   <div class="note">4★ before the 2019 HCA sale → 2★ in HCA's first year → 1★ by 2022. Latest CMS file (surveys Jul 2024–Jun 2025): back to 2★. Component stars: cleanliness 1★, nurse/doctor communication 2★, recommend 2★.</div>
 </div>
@@ -146,12 +146,14 @@ window.addEventListener("load", function () {
   const goal = (label, value, n, dash) => ({ label: label, data: Array(n).fill(value), borderColor: "#059669", borderDash: dash || [6,4], borderWidth: 1.5, pointRadius: 0, fill: false, spanGaps: true });
   const mk = (id, cfg) => { try { new Chart(document.getElementById(id), cfg); } catch (e) { console.error(id, e); } };
 
-  // Star rating trend with goal lines projected to 2028
+  // Star rating trend with goals projected to 2028 (4★ target year)
   const starLabels = DATA.starTrend.labels.concat(["2026","2027","2028"]);
+  const starGoal4 = Array(starLabels.length).fill(null);
+  starGoal4[starLabels.length - 1] = 4; // 4★ goal marked at 2028
   mk("starChart", { type: "line", data: { labels: starLabels, datasets: [
     { label: "Mission summary star", data: pad(DATA.starTrend.mission, starLabels.length), borderColor: "#2563eb", backgroundColor: "#2563eb", pointRadius: 4, tension: 0.25, spanGaps: true },
-    goal("Goal: national par (3★)", 3, starLabels.length),
-    goal("Long-range: 4★ (pre-sale)", 4, starLabels.length, [2,3])
+    goal("Interim: national par (3★)", 3, starLabels.length, [6,4]),
+    { label: "Goal: 4★ by 2028", data: starGoal4, borderColor: "#059669", backgroundColor: "#059669", pointRadius: 7, pointStyle: "triangle", showLine: false, spanGaps: true }
   ]}, options: { ...common, scales: { y: { min: 0, max: 5, ticks: { stepSize: 1 } } } } });
 
   mk("ijChart", { type: "bar", data: { labels: DATA.ij.years, datasets: [
