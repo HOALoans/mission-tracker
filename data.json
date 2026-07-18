@@ -80,6 +80,87 @@
     "goal": "100% main-Match fill by 2028",
     "nextDataPoint": "March 2027"
   },
+  "overallQualityStars": {
+    "source": "CMS Hospital General Information xubh-q36u",
+    "current": 3,
+    "asOf": "2026-04 CMS release",
+    "goal": "4 stars by 2028",
+    "groupSummary": {
+      "mortality": { "better": 0, "noDifferent": 8, "worse": 0 },
+      "safety": { "better": 3, "noDifferent": 5, "worse": 0 },
+      "readmission": { "better": 4, "noDifferent": 6, "worse": 1 }
+    }
+  },
+  "hai": {
+    "source": "CMS Healthcare Associated Infections 77hc-ibv8",
+    "period": "2024-07-01 to 2025-06-30",
+    "goal": "All SIR < 1.0 by 2028",
+    "sir": {
+      "CLABSI": { "value": 0.383, "vsNational": "Better" },
+      "CAUTI": { "value": 0.348, "vsNational": "Better" },
+      "SSI_colon": { "value": 1.194, "vsNational": "No Different" },
+      "SSI_hysterectomy": { "value": 2.292, "vsNational": "Worse" },
+      "MRSA": { "value": 0.664, "vsNational": "No Different" },
+      "C_diff": { "value": 0.195, "vsNational": "Better" }
+    }
+  },
+  "ed": {
+    "source": "CMS Timely and Effective Care yv7e-xc69; national isrn-hqyy",
+    "OP_18b_medianMinutes": { "mission": 173, "national": 161, "period": "2024-07 to 2025-06" },
+    "OP_22_leftWithoutBeingSeenPct": { "mission": 0, "national": 2, "period": "2024 calendar" },
+    "ED_volume": "very high",
+    "goal": "ED median ≤ national; LWBS ≤ 1% by 2028"
+  },
+  "mortality": {
+    "source": "CMS Complications and Deaths ynj2-r877",
+    "period": "mostly 2021-07 to 2024-06",
+    "goal": "No worse-than-national mortality measures by 2028",
+    "rates": {
+      "MORT_30_AMI": 10.9, "MORT_30_CABG": 2.5, "MORT_30_COPD": 8.0,
+      "MORT_30_HF": 11.5, "MORT_30_PN": 15.3, "MORT_30_STK": 13.5
+    },
+    "note": "All listed currently no different than national"
+  },
+  "readmissions": {
+    "source": "CMS Unplanned Hospital Visits 632h-zaca + HRRP 9n3s-kdb3",
+    "hybridHospitalWidePct": { "value": 13.8, "vsNational": "Better" },
+    "rates": {
+      "AMI": 11.3, "HF": 18.0, "PN": 14.8, "COPD": 18.1, "CABG": 9.6, "HIP_KNEE": 4.6
+    },
+    "goal": "Hold/improve vs national by 2028"
+  },
+  "safetyPsi90": {
+    "source": "CMS ynj2-r877 PSI_90",
+    "value": 0.68,
+    "vsNational": "Better",
+    "period": "2022-07 to 2024-06",
+    "goal": "Stay ≤ 0.8 (better than national) by 2028"
+  },
+  "sepsis": {
+    "source": "CMS Timely Care SEP_1",
+    "missionPct": 63,
+    "nationalPct": 64,
+    "period": "2024-07 to 2025-06",
+    "goal": "≥ 80% by 2028"
+  },
+  "operatingMargin": {
+    "source": "CMS HCRIS Worksheet G-3: line 5 ÷ line 3 (net income from patients / net patient revenue)",
+    "byYearPct": { "2018": 2.3, "2021": 17.4, "2022": 7.4, "2023": 12.5, "2024": 14.2 },
+    "note": "Context metric — rose after HCA purchase as staffing fell; not a recovery target"
+  },
+  "mspb": {
+    "source": "CMS Medicare Spending Per Beneficiary rrqw-56er",
+    "score": 0.99,
+    "period": "2024 calendar",
+    "goal": "Stay ≤ 1.0 by 2028"
+  },
+  "fluVaccination": {
+    "source": "CMS IMM_3 healthcare worker influenza vaccination",
+    "missionPct": 59,
+    "nationalPct": 78,
+    "period": "2024-10 to 2025-03",
+    "goal": "≥ 90% by 2028"
+  },
   "notReportable": {
     "goodVsBadExperienceReports": "No official dataset; proxies are HCAHPS 9-10 vs <=6 ratings or review sentiment",
     "practicePhysicianRetention": "Not publicly reported; CMS affiliation count is the proxy"

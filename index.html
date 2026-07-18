@@ -11,71 +11,42 @@
   body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f6f7f9; color: #1a202c; padding: 20px; }
   h1 { font-size: 1.35rem; margin-bottom: 2px; }
   .sub { color: #64748b; font-size: 0.82rem; margin-bottom: 16px; }
-  .grid {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    max-width: 1400px;
-    margin: 0 auto;
-  }
-  .grid-row {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 14px;
-  }
-  @media (max-width: 1100px) {
-    .grid-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  }
-  @media (max-width: 560px) {
-    .grid-row { grid-template-columns: 1fr; }
-  }
-  .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px 16px; }
-  .card h2 { font-size: 0.95rem; margin-bottom: 2px; }
-  .card .meta { font-size: 0.72rem; color: #94a3b8; margin-bottom: 8px; }
-  .goal { display: inline-block; background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; border-radius: 999px; font-size: 0.7rem; padding: 1px 8px; margin-bottom: 8px; }
-  .chartbox { position: relative; height: 230px; }
-  .stat { font-size: 1.7rem; font-weight: 700; }
-  .statrow { display: flex; gap: 18px; flex-wrap: wrap; margin: 6px 0 10px; }
-  .statlbl { font-size: 0.72rem; color: #64748b; }
+  .grid { display: flex; flex-direction: column; gap: 14px; max-width: 1800px; margin: 0 auto; }
+  .grid-row { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; }
+  @media (max-width: 1400px) { .grid-row { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (max-width: 900px) { .grid-row { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 560px) { .grid-row { grid-template-columns: 1fr; } }
+  .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px 14px; }
+  .card h2 { font-size: 0.88rem; margin-bottom: 2px; line-height: 1.25; }
+  .card .meta { font-size: 0.68rem; color: #94a3b8; margin-bottom: 6px; }
+  .goal { display: inline-block; background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; border-radius: 999px; font-size: 0.65rem; padding: 1px 8px; margin-bottom: 6px; }
+  .chartbox { position: relative; height: 200px; }
+  .stat { font-size: 1.55rem; font-weight: 700; }
+  .statrow { display: flex; gap: 14px; flex-wrap: wrap; margin: 6px 0 8px; }
+  .statlbl { font-size: 0.7rem; color: #64748b; }
   .warn { color: #b45309; }
-  .note { font-size: 0.75rem; color: #64748b; line-height: 1.45; margin-top: 8px; }
-  .banner { background: #fff7ed; border: 1px solid #fed7aa; border-radius: 10px; padding: 10px 14px; font-size: 0.8rem; margin-bottom: 14px; }
+  .good { color: #047857; }
+  .note { font-size: 0.7rem; color: #64748b; line-height: 1.4; margin-top: 6px; }
+  .banner { background: #fff7ed; border: 1px solid #fed7aa; border-radius: 10px; padding: 10px 14px; font-size: 0.8rem; margin-bottom: 14px; max-width: 1800px; margin-left: auto; margin-right: auto; }
   .err { color: #b91c1c; font-size: 0.8rem; padding: 8px 0; display: none; }
-  footer { font-size: 0.72rem; color: #94a3b8; margin-top: 18px; line-height: 1.6; }
+  footer { font-size: 0.7rem; color: #94a3b8; margin-top: 18px; line-height: 1.6; max-width: 1800px; margin-left: auto; margin-right: auto; }
   footer a { color: #64748b; }
-
-  /* Year status strip — better than bars for rare 0/1 events */
-  .yearstrip { display: flex; gap: 6px; flex-wrap: wrap; margin: 10px 0 6px; }
-  .yearcell {
-    flex: 1 1 52px; min-width: 52px; max-width: 72px;
-    border-radius: 8px; border: 1px solid #e2e8f0; padding: 10px 4px 8px;
-    text-align: center; background: #f8fafc;
-  }
-  .yearcell .yr { display: block; font-size: 0.72rem; font-weight: 600; color: #475569; margin-bottom: 6px; }
-  .yearcell .mark {
-    display: inline-flex; align-items: center; justify-content: center;
-    width: 22px; height: 22px; border-radius: 50%; font-size: 0.7rem; font-weight: 700;
-  }
+  .yearstrip { display: flex; gap: 5px; flex-wrap: wrap; margin: 8px 0 4px; }
+  .yearcell { flex: 1 1 44px; min-width: 44px; max-width: 64px; border-radius: 8px; border: 1px solid #e2e8f0; padding: 8px 3px 6px; text-align: center; background: #f8fafc; }
+  .yearcell .yr { display: block; font-size: 0.65rem; font-weight: 600; color: #475569; margin-bottom: 4px; }
+  .yearcell .mark { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; font-size: 0.65rem; font-weight: 700; }
   .yearcell.clear .mark { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
   .yearcell.ij { background: #fef2f2; border-color: #fecaca; }
   .yearcell.ij .mark { background: #dc2626; color: #fff; }
   .yearcell.future { background: #fff; border-style: dashed; border-color: #86efac; }
   .yearcell.future .yr { color: #059669; }
   .yearcell.future .mark { background: #ecfdf5; color: #047857; border: 1px dashed #6ee7b7; }
-  .yearcell.goal2028 {
-    background: #ecfdf5;
-    border-style: solid;
-    border-color: #059669;
-    box-shadow: inset 0 0 0 1px #059669;
-  }
+  .yearcell.goal2028 { background: #ecfdf5; border-style: solid; border-color: #059669; box-shadow: inset 0 0 0 1px #059669; }
   .yearcell.goal2028 .yr { color: #047857; font-weight: 700; }
-  .yearcell .goalcap {
-    display: block; margin-top: 4px; font-size: 0.58rem; font-weight: 700;
-    letter-spacing: 0.04em; text-transform: uppercase; color: #059669;
-  }
-  .striplegend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 0.7rem; color: #64748b; margin: 4px 0 2px; }
-  .striplegend span { display: inline-flex; align-items: center; gap: 5px; }
-  .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .yearcell .goalcap { display: block; margin-top: 3px; font-size: 0.55rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #059669; }
+  .striplegend { display: flex; gap: 12px; flex-wrap: wrap; font-size: 0.65rem; color: #64748b; margin: 2px 0; }
+  .striplegend span { display: inline-flex; align-items: center; gap: 4px; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
   .dot.ij { background: #dc2626; }
   .dot.clear { background: #ecfdf5; border: 1px solid #a7f3d0; }
   .dot.goal { background: #ecfdf5; border: 1px dashed #059669; }
@@ -83,129 +54,222 @@
 </head>
 <body>
 <h1>Mission Hospital (Asheville, NC) - Road to Recovery Dashboard</h1>
-<div class="sub">CCN 340002 · Last refreshed <span id="lastRefresh"></span> · CMS survey data updates quarterly; cost reports &amp; Match results annually</div>
+<div class="sub">CCN 340002 · Last refreshed <span id="lastRefresh"></span> · CMS Care Compare + HCRIS cost reports · Match results annual</div>
 <div class="err" id="loadErr">Charts could not load. Data is preserved — try reloading.</div>
 
-<div class="banner"><strong>Current status:</strong> Not under Immediate Jeopardy — 4th IJ (designated Jan 2026) removed March 4, 2026 after CMS approved an Enhanced Plan of Correction. Four IJs since the 2019 HCA sale.</div>
+<div class="banner"><strong>Current status:</strong> Not under Immediate Jeopardy — 4th IJ (Jan 2026) removed Mar 4, 2026 after Enhanced Plan of Correction. CMS overall quality rating: <strong>3★</strong>. Latest staff-to-bed: <strong>4.8</strong> (FY2024). HCAHPS: <strong>2★</strong>.</div>
 
 <div class="grid">
 
 <div class="grid-row">
 <div class="card">
-  <h2>HCAHPS patient-survey star rating, 2018–present</h2>
-  <div class="meta">Source: CMS Care Compare archives (via Asheville Watchdog / Wake Forest analyses) + current CMS API · 5-star scale</div>
-  <span class="goal">Goal: 4★ by 2028 (pre-sale level) · 3★ interim (national par)</span>
+  <h2>HCAHPS patient-survey stars</h2>
+  <div class="meta">CMS HCAHPS · surveys Jul 2024–Jun 2025 latest</div>
+  <span class="goal">Goal: 4★ by 2028</span>
   <div class="chartbox"><canvas id="starChart"></canvas></div>
-  <div class="note">4★ before the 2019 HCA sale → 2★ in HCA's first year → 1★ by 2022. Latest CMS file (surveys Jul 2024–Jun 2025): back to 2★. Component stars: cleanliness 1★, nurse/doctor communication 2★, recommend 2★.</div>
+  <div class="note">Pre-sale 4★ → 1★ by 2022 → 2★ latest. Cleanliness still 1★.</div>
 </div>
 
 <div class="card">
-  <h2>Immediate Jeopardy &amp; EMTALA findings by year</h2>
-  <div class="meta">Source: CMS/NCDHHS inspection reports (Form 2567), by year of designation</div>
-  <span class="goal">Goal: 0 IJ designations by 2028, sustained</span>
+  <h2>CMS overall quality stars</h2>
+  <div class="meta">Care Compare overall hospital rating (mortality, safety, readmit, experience, timely care)</div>
+  <span class="goal">Goal: 4★ by 2028</span>
+  <div class="chartbox"><canvas id="overallStarChart"></canvas></div>
+  <div class="note">Current snapshot only (Apr 2026 release): 3★. Group scores: safety 3 better / 0 worse; readmit 4 better / 1 worse.</div>
+</div>
+
+<div class="card">
+  <h2>Immediate Jeopardy by year</h2>
+  <div class="meta">CMS/NCDHHS Form 2567</div>
+  <span class="goal">Goal: 0 by 2028</span>
   <div class="striplegend">
-    <span><i class="dot ij"></i> IJ year</span>
-    <span><i class="dot clear"></i> Clear (0)</span>
-    <span><i class="dot goal"></i> Goal years → 0 by 2028</span>
+    <span><i class="dot ij"></i> IJ</span>
+    <span><i class="dot clear"></i> Clear</span>
+    <span><i class="dot goal"></i> Goal</span>
   </div>
-  <div class="yearstrip" id="ijStrip" aria-label="Immediate Jeopardy by year"></div>
-  <div class="note">2021: patient found dying on floor · Dec 2023–Feb 2024: IJ + EMTALA violation (18 harmed, 4 deaths) · Oct 2025: preventable death, unsafe transport, infection control · Jan 2026: repeat findings, removed Mar 4, 2026.</div>
+  <div class="yearstrip" id="ijStrip"></div>
+  <div class="note">Four IJs since 2019 HCA sale; cleared Mar 4, 2026.</div>
 </div>
 
 <div class="card">
-  <h2>Staffing level (staff-to-bed ratio)</h2>
-  <div class="meta">Source: CMS HCRIS Form 2552-10 Worksheet S-3 Part I · hospital FTEs (col 10) ÷ beds (col 2, line 14) · FY ends Sept</div>
-  <span class="goal">Goal: 9 by 2028 (pre-sale level)</span>
+  <h2>Staff-to-bed ratio</h2>
+  <div class="meta">CMS HCRIS S-3 FTEs ÷ beds · FY ends Sept</div>
+  <span class="goal">Goal: 9 by 2028</span>
   <div class="chartbox"><canvas id="staffChart"></canvas></div>
-  <div class="note">Latest FY2024: 4.8 (3,420 FTEs / 717 beds) — essentially flat vs FY2023 4.7. Pre-sale FY2018 was 8.6 by this CMS method (litigation experts cited ~9.1). FY2025 cost report not yet processed by CMS. Context: HCA planned ~800 FTE cuts at purchase; 660+ RNs left HCA Asheville facilities 2022–23.</div>
+  <div class="note">FY2024: 4.8 — flat vs 4.7 in 2023. Pre-sale CMS method: 8.6.</div>
 </div>
 
 <div class="card">
-  <h2>Traveler / contract nurse share (proxy)</h2>
-  <div class="meta">Sources: union &amp; staff estimates (news-reported); audited cost-report contract-labor split added annually</div>
-  <span class="goal">Goal: under 10% travelers by 2028</span>
+  <h2>Traveler / contract share</h2>
+  <div class="meta">Union estimate (news); Worksheet S-3 audit pending</div>
+  <span class="goal">Goal: under 10% by 2028</span>
   <div class="chartbox"><canvas id="travelerChart"></canvas></div>
-  <div class="note">~1,550 travelers on 2,680+ contracts Jul 2022–Apr 2024. Union estimated ~40% travelers in 2024; staff nurses estimated ~50% in some units. Asheville Watchdog (Dec 2025 staffing lists): ~527 travelers + ~1,500 FT nurses (described as ~quarter). No audited Worksheet S-3 % yet; contract-labor hours will replace estimates as cost reports post.</div>
+  <div class="note">~40% in 2024 (union). Not yet replaced with audited cost-report split.</div>
+</div>
+
+<div class="card">
+  <h2>Residency Match fill</h2>
+  <div class="meta">NRMP · Mountain AHEC–Asheville aggregate</div>
+  <span class="goal">Goal: 100% by 2028</span>
+  <div class="chartbox"><canvas id="matchChart"></canvas></div>
+  <div class="note">2026: 81% (59/73). IM filled only 10/18.</div>
 </div>
 </div>
 
 <div class="grid-row">
 <div class="card">
-  <h2>Good vs. bad experiences (proxy)</h2>
-  <div class="meta">Proxy: HCAHPS % rating hospital 9–10 vs. 6-or-lower, by survey period</div>
-  <span class="goal">Goal: high ≥ 80% by 2028 · low ≤ 10% by 2028</span>
+  <h2>Good vs bad experiences</h2>
+  <div class="meta">HCAHPS rated 9–10 vs ≤6</div>
+  <span class="goal">Goal: ≥80% / ≤10% by 2028</span>
   <div class="chartbox"><canvas id="goodBadChart"></canvas></div>
-  <div class="note">Not an official "good vs bad reports" metric — closest standardized measure. Currently 58% high vs 16% low (~3.6:1). Quarterly snapshots build the trend.</div>
+  <div class="note">Latest: 58% high / 16% low.</div>
 </div>
 
 <div class="card">
-  <h2>Physicians affiliated with Mission</h2>
-  <div class="meta">Source: CMS Doctors &amp; Clinicians facility-affiliation file · quarterly snapshot count</div>
-  <span class="goal">Goal: maintain ≥ 1,621 by 2028</span>
+  <h2>Physicians affiliated</h2>
+  <div class="meta">CMS facility affiliation count</div>
+  <span class="goal">Goal: maintain ≥1,621 by 2028</span>
   <div class="chartbox"><canvas id="physChart"></canvas></div>
-  <div class="note">Proxy for "practices can attract and retain physicians." Only one CMS affiliation snapshot so far: 1,621 clinicians (Jul 2026). No public historical CMS time series; HCA has not published staff totals (Watchdog documented ~223 Find-a-Doctor removals 2019–2022, not comparable to this count). Quarterly refreshes append here.</div>
+  <div class="note">Only Jul 2026 CMS snapshot available.</div>
 </div>
 
 <div class="card">
-  <h2>Residency match fill (Mountain AHEC / Mission GME)</h2>
-  <div class="meta">Source: NRMP Main Match Program Results · Mountain AHEC–NC Asheville · all program tracks aggregated</div>
-  <span class="goal">Goal: 100% main-Match fill by 2028</span>
-  <div class="chartbox"><canvas id="matchChart"></canvas></div>
-  <div class="note">Fill % = positions filled ÷ quota in the main Match (before SOAP). Latest (2026): 59 of 73 filled (81%) — Internal Medicine filled only 10 of 18. Next update: March 2027.</div>
+  <h2>Hospital-acquired infections (SIR)</h2>
+  <div class="meta">CMS HAI · Jul 2024–Jun 2025 · SIR &lt;1 better than expected</div>
+  <span class="goal">Goal: all SIR &lt; 1.0 by 2028</span>
+  <div class="chartbox"><canvas id="haiChart"></canvas></div>
+  <div class="note">SSI–hysterectomy SIR 2.29 (worse than national). CLABSI/CAUTI/C.diff better.</div>
 </div>
 
 <div class="card">
-  <h2>Patient experience vs. national average (latest)</h2>
-  <div class="meta">Source: CMS HCAHPS API, surveys Jul 2024–Jun 2025 · national values approximate</div>
-  <span class="goal">Goal: meet or beat national average on every measure</span>
+  <h2>ED wait &amp; left-without-being-seen</h2>
+  <div class="meta">CMS Timely &amp; Effective Care</div>
+  <span class="goal">Goal: ED ≤ national; LWBS ≤ 1% by 2028</span>
+  <div class="chartbox"><canvas id="edChart"></canvas></div>
+  <div class="note">Median ED time 173 min (natl 161). LWBS 0% (natl ~2%). Volume: very high.</div>
+</div>
+
+<div class="card">
+  <h2>30-day mortality rates</div>
+  <div class="meta">CMS Complications &amp; Deaths · compared to national</div>
+  <span class="goal">Goal: no “worse than national” by 2028</span>
+  <div class="chartbox"><canvas id="mortChart"></canvas></div>
+  <div class="note">All listed measures currently no different than national.</div>
+</div>
+
+<div class="card">
+  <h2>Readmissions</div>
+  <div class="meta">CMS Unplanned Visits + HRRP</div>
+  <span class="goal">Goal: hold/improve vs national by 2028</span>
+  <div class="chartbox"><canvas id="readmChart"></canvas></div>
+  <div class="note">Hospital-wide hybrid readmit 13.8% (better than national). AMI readmit better.</div>
+</div>
+</div>
+
+<div class="grid-row">
+<div class="card">
+  <h2>Patient safety (PSI-90)</h2>
+  <div class="meta">CMS Medicare PSI 90 composite · lower better</div>
+  <span class="goal">Goal: stay better than national (≤0.8) by 2028</span>
+  <div class="chartbox"><canvas id="psiChart"></canvas></div>
+  <div class="note">PSI-90 = 0.68 — better than national. Pressure ulcers &amp; PE/DVT also better.</div>
+</div>
+
+<div class="card">
+  <h2>Sepsis bundle (SEP-1)</h2>
+  <div class="meta">Appropriate care for severe sepsis / septic shock</div>
+  <span class="goal">Goal: ≥80% by 2028</span>
+  <div class="chartbox"><canvas id="sepsisChart"></canvas></div>
+  <div class="note">Mission 63% vs national ~64%. Room to improve on full SEP-1.</div>
+</div>
+
+<div class="card">
+  <h2>Patient experience vs national</h2>
+  <div class="meta">CMS HCAHPS top-box %</div>
+  <span class="goal">Goal: meet/beat national on every measure</span>
   <div class="chartbox"><canvas id="hcahpsChart"></canvas></div>
+</div>
+
+<div class="card">
+  <h2>Operating margin (patient care)</h2>
+  <div class="meta">CMS HCRIS G-3 · net income from patients ÷ net patient revenue</div>
+  <span class="goal">Context metric (not a recovery target)</span>
+  <div class="chartbox"><canvas id="marginChart"></canvas></div>
+  <div class="note">FY2024: 14.2% ($204M). Rose sharply after HCA purchase while staffing fell.</div>
+</div>
+
+<div class="card">
+  <h2>Medicare spending per beneficiary</h2>
+  <div class="meta">CMS MSPB-1 · 1.0 = national average</div>
+  <span class="goal">Goal: stay ≤ 1.0 by 2028</span>
+  <div class="chartbox"><canvas id="mspbChart"></canvas></div>
+  <div class="note">2024 score 0.99 — about average Medicare episode cost.</div>
+</div>
+
+<div class="card">
+  <h2>Healthcare worker flu vaccination</h2>
+  <div class="meta">CMS IMM-3 · Oct 2024–Mar 2025</div>
+  <span class="goal">Goal: ≥90% by 2028</span>
+  <div class="chartbox"><canvas id="fluChart"></canvas></div>
+  <div class="note">Mission 59% vs national ~78% — large gap.</div>
 </div>
 </div>
 
 </div>
 
 <footer>
-  Sources: <a href="https://data.cms.gov/provider-data/dataset/dgck-syfz">CMS HCAHPS</a> ·
-  <a href="https://www.medicare.gov/care-compare/details/hospital/340002">Care Compare</a> ·
-  <a href="https://www.cms.gov/data-research/statistics-trends-and-reports/cost-reports">Medicare cost reports</a> ·
-  <a href="https://www.nrmp.org/">NRMP</a> ·
+  Sources: <a href="https://data.cms.gov/provider-data/">CMS Provider Data Catalog</a> (HCAHPS, HAI, Timely Care, Complications/Deaths, Unplanned Visits, MSPB, Hospital General Information) ·
+  <a href="https://www.cms.gov/data-research/statistics-trends-and-reports/cost-reports">Medicare cost reports (HCRIS)</a> ·
+  <a href="https://www.nrmp.org/">NRMP Program Results</a> ·
   <a href="https://avlwatchdog.org/">Asheville Watchdog</a> ·
-  <a href="https://www.northcarolinahealthnews.org/2025/02/08/hcas-purchase-of-mission-health-did-not-lead-to-lasting-improvements-wake-forest-academic-report-concludes/">Wake Forest report (NC Health News)</a> ·
-  <a href="https://carolinapublicpress.org/">Carolina Public Press</a>.
-  Pre-2026 star ratings and staffing ratios compiled from published analyses of CMS archives; news-sourced values are estimates, not audited figures.
+  <a href="https://www.northcarolinahealthnews.org/">NC Health News</a>.
+  Staff-to-bed and margins computed from Form 2552-10. Traveler % remains a news/union estimate. Overall quality stars currently a single CMS snapshot.
 </footer>
 
 <script>
-// ===== DATA (edited by quarterly refresh task — append new snapshots, don't overwrite history) =====
 const DATA = {
   lastRefresh: "2026-07-18",
-  ij: {
-    years: ["2019","2020","2021","2022","2023","2024","2025","2026"],
-    counts: [0,0,1,0,0,1,1,1],
-    goalYear: "2028",
-    goalCount: 0
-  },
-  // Summary star by year; 2018-2024 from Watchdog/Wake Forest reporting on CMS archives; latest from CMS API
+  ij: { years: ["2019","2020","2021","2022","2023","2024","2025","2026"], counts: [0,0,1,0,0,1,1,1], goalYear: "2028", goalCount: 0 },
   starTrend: { labels: ["2018","2019","2020","2021","2022","2023","2024","2025*"], mission: [4,2,2,2,1,1,1,2] },
-  // CMS HCRIS S-3 Part I: hospital FTEs (line 14 col 10) / beds (line 14 col 2); FY ends 9/30
+  overallStars: { labels: ["2026"], stars: [3] },
   staffRatio: { labels: ["2018","2021","2022","2023","2024"], ratio: [8.6,5.1,4.6,4.7,4.8] },
   hcahps: {
-    measures: ["Nurses always communicated","Doctors always communicated","Room always clean","Always quiet at night","Rated 9–10","Definitely recommend"],
+    measures: ["Nurses always","Doctors always","Room always clean","Quiet at night","Rated 9–10","Definitely recommend"],
     mission: [72,73,51,52,58,53],
     national: [79,80,72,62,71,69]
   },
   goodBad: { labels: ["Jun 2025"], high: [58], low: [16] },
   travelers: { labels: ["2022","2024"], pct: [null,40] },
   physicians: { labels: ["Jul 2026"], count: [1621] },
-  // Mountain AHEC–NC Asheville aggregate fill % from NRMP Program Results (quota/filled across tracks)
-  matchFill: { labels: ["2022","2023","2024","2025","2026"], pct: [81,96,87,97,81], filled: [54,65,62,71,59], quota: [67,68,71,73,73] }
+  matchFill: { labels: ["2022","2023","2024","2025","2026"], pct: [81,96,87,97,81] },
+  hai: {
+    labels: ["CLABSI","CAUTI","SSI colon","SSI hyst","MRSA","C. diff"],
+    sir: [0.383,0.348,1.194,2.292,0.664,0.195],
+    colors: ["#059669","#059669","#94a3b8","#dc2626","#94a3b8","#059669"]
+  },
+  ed: {
+    labels: ["ED median min","LWBS %"],
+    mission: [173, 0],
+    national: [161, 2]
+  },
+  mortality: {
+    labels: ["AMI","CABG","COPD","HF","Pneumonia","Stroke"],
+    rate: [10.9,2.5,8.0,11.5,15.3,13.5]
+  },
+  readmit: {
+    labels: ["Hospital-wide","AMI","HF","Pneumonia","COPD","CABG","Hip/knee"],
+    rate: [13.8,11.3,18.0,14.8,18.1,9.6,4.6]
+  },
+  psi90: { labels: ["2024*"], score: [0.68] },
+  sepsis: { labels: ["2025*"], mission: [63], national: [64] },
+  margin: { labels: ["2018","2021","2022","2023","2024"], pct: [2.3,17.4,7.4,12.5,14.2] },
+  mspb: { labels: ["2024"], score: [0.99] },
+  flu: { labels: ["2024-25"], mission: [59], national: [78] }
 };
-// ==================================================================================================
 
 window.addEventListener("load", function () {
   document.getElementById("lastRefresh").textContent = DATA.lastRefresh;
 
-  // IJ year strip (0/1 events read better as status cells than bars)
   (function renderIjStrip() {
     const strip = document.getElementById("ijStrip");
     const byYear = Object.fromEntries(DATA.ij.years.map((y, i) => [y, DATA.ij.counts[i]]));
@@ -213,136 +277,163 @@ window.addEventListener("load", function () {
     const end = Number(DATA.ij.goalYear || 2028);
     for (let y = start; y <= end; y++) {
       const key = String(y);
-      const cell = document.createElement("div");
       const known = Object.prototype.hasOwnProperty.call(byYear, key);
       const count = known ? byYear[key] : null;
       let cls = "yearcell";
       let mark = "0";
       if (known && count > 0) { cls += " ij"; mark = String(count); }
-      else if (known) { cls += " clear"; mark = "0"; }
-      else { cls += " future"; mark = "0"; }
+      else if (known) { cls += " clear"; }
+      else { cls += " future"; }
       const isGoal = key === String(DATA.ij.goalYear);
       if (isGoal) cls += " goal2028";
+      const cell = document.createElement("div");
       cell.className = cls;
-      const title = isGoal ? "Goal: 0 by 2028" : (known ? (count ? count + " IJ" : "Clear") : "Goal: 0");
-      cell.innerHTML = `<span class="yr">${key}</span><span class="mark" title="${title}">${mark}</span>${isGoal ? '<span class="goalcap">Goal</span>' : ''}`;
+      cell.innerHTML = `<span class="yr">${key}</span><span class="mark">${mark}</span>${isGoal ? '<span class="goalcap">Goal</span>' : ''}`;
       strip.appendChild(cell);
     }
   })();
 
   if (typeof Chart === "undefined") { document.getElementById("loadErr").style.display = "block"; return; }
 
-  Chart.defaults.font.size = 11;
+  Chart.defaults.font.size = 10;
   Chart.defaults.color = "#475569";
   const common = {
     responsive: true,
     maintainAspectRatio: false,
-    plugins: { legend: { labels: { usePointStyle: true, boxWidth: 10, filter: (item) => !!item.text } } }
+    plugins: { legend: { labels: { usePointStyle: true, boxWidth: 8, font: { size: 10 }, filter: (item) => !!item.text } } }
   };
   const pad = (arr, n) => arr.concat(Array(Math.max(0, n - arr.length)).fill(null));
-  // Last non-null actual value (and its index) in a series
   const lastActual = (arr) => {
-    for (let i = arr.length - 1; i >= 0; i--) {
-      if (arr[i] != null) return { idx: i, val: arr[i] };
-    }
+    for (let i = arr.length - 1; i >= 0; i--) if (arr[i] != null) return { idx: i, val: arr[i] };
     return null;
   };
-  // Flat dashed reference line (level across all years)
-  const goal = (label, value, n, dash) => ({ label: label, data: Array(n).fill(value), borderColor: "#059669", borderDash: dash || [6,4], borderWidth: 1.5, pointRadius: 0, pointStyle: "line", fill: false, spanGaps: true });
-  // Plotted 2028 goal marker (triangle at the 2028 category)
+  const goal = (label, value, n, dash) => ({ label, data: Array(n).fill(value), borderColor: "#059669", borderDash: dash || [6,4], borderWidth: 1.5, pointRadius: 0, pointStyle: "line", fill: false, spanGaps: true });
   const goalPoint = (label, value, n) => {
-    const data = Array(n).fill(null);
-    data[n - 1] = value;
-    return { label, data, borderColor: "#059669", backgroundColor: "#059669", pointRadius: 7, pointHoverRadius: 9, pointStyle: "triangle", showLine: false, spanGaps: true };
+    const data = Array(n).fill(null); data[n - 1] = value;
+    return { label, data, borderColor: "#059669", backgroundColor: "#059669", pointRadius: 6, pointStyle: "triangle", showLine: false, spanGaps: true };
   };
-  // Dotted trajectory from last actual point to 2028 goal (triangle marker stays separate)
   const goalPath = (lastIdx, lastVal, goalIdx, goalVal, n, label) => {
-    const data = Array(n).fill(null);
-    data[lastIdx] = lastVal;
-    data[goalIdx] = goalVal;
-    return {
-      label: label == null ? "Path to 2028 goal" : label,
-      data,
-      borderColor: "#059669",
-      borderDash: [4, 4],
-      borderWidth: 1.5,
-      pointRadius: 0,
-      pointHoverRadius: 0,
-      pointStyle: "line",
-      fill: false,
-      spanGaps: true
-    };
+    const data = Array(n).fill(null); data[lastIdx] = lastVal; data[goalIdx] = goalVal;
+    return { label: label == null ? "Path to 2028 goal" : label, data, borderColor: "#059669", borderDash: [4,4], borderWidth: 1.5, pointRadius: 0, pointStyle: "line", fill: false, spanGaps: true };
   };
   const mk = (id, cfg) => { try { new Chart(document.getElementById(id), cfg); } catch (e) { console.error(id, e); } };
 
-  // Star rating trend with goals projected to 2028 (4★ target year)
   const starLabels = DATA.starTrend.labels.concat(["2026","2027","2028"]);
   const starLast = lastActual(DATA.starTrend.mission);
   mk("starChart", { type: "line", data: { labels: starLabels, datasets: [
-    { label: "Mission summary star", data: pad(DATA.starTrend.mission, starLabels.length), borderColor: "#2563eb", backgroundColor: "#2563eb", pointRadius: 4, tension: 0.25, spanGaps: true },
-    goal("Interim: national par (3★)", 3, starLabels.length, [6,4]),
+    { label: "HCAHPS stars", data: pad(DATA.starTrend.mission, starLabels.length), borderColor: "#2563eb", backgroundColor: "#2563eb", pointRadius: 3, tension: 0.25, spanGaps: true },
     ...(starLast ? [goalPath(starLast.idx, starLast.val, starLabels.length - 1, 4, starLabels.length)] : []),
-    goalPoint("Goal: 4★ by 2028", 4, starLabels.length)
+    goalPoint("Goal 4★", 4, starLabels.length)
   ]}, options: { ...common, scales: { y: { min: 0, max: 5, ticks: { stepSize: 1 } } } } });
 
-  // Staff-to-bed with 2028 goal marker (same pattern as 4★ HCAHPS target)
+  const ovLabels = ["2026","2027","2028"];
+  mk("overallStarChart", { type: "line", data: { labels: ovLabels, datasets: [
+    { label: "Overall CMS stars", data: [3, null, null], borderColor: "#2563eb", backgroundColor: "#2563eb", pointRadius: 5, spanGaps: true },
+    goalPath(0, 3, 2, 4, 3),
+    goalPoint("Goal 4★", 4, 3)
+  ]}, options: { ...common, scales: { y: { min: 0, max: 5, ticks: { stepSize: 1 } } } } });
+
   const staffLabels = DATA.staffRatio.labels.concat(["2025","2026","2027","2028"]);
   const staffLast = lastActual(DATA.staffRatio.ratio);
   mk("staffChart", { type: "line", data: { labels: staffLabels, datasets: [
-    { label: "Staff per bed", data: pad(DATA.staffRatio.ratio, staffLabels.length), borderColor: "#b45309", backgroundColor: "#b45309", pointRadius: 5, spanGaps: true },
-    goal("Pre-sale reference (~9)", 9, staffLabels.length, [6,4]),
+    { label: "Staff per bed", data: pad(DATA.staffRatio.ratio, staffLabels.length), borderColor: "#b45309", backgroundColor: "#b45309", pointRadius: 4, spanGaps: true },
     ...(staffLast ? [goalPath(staffLast.idx, staffLast.val, staffLabels.length - 1, 9, staffLabels.length)] : []),
-    goalPoint("Goal: 9 by 2028", 9, staffLabels.length)
+    goalPoint("Goal 9", 9, staffLabels.length)
   ]}, options: { ...common, scales: { y: { min: 0, max: 10 } } } });
 
-  // Traveler share with 2028 goal marker (same pattern as staff-to-bed / 4★)
   const travLabels = DATA.travelers.labels.concat(["2025","2026","2027","2028"]);
   const travLast = lastActual(DATA.travelers.pct);
   mk("travelerChart", { type: "line", data: { labels: travLabels, datasets: [
-    { label: "% traveler/contract nurses", data: pad(DATA.travelers.pct, travLabels.length), borderColor: "#b45309", backgroundColor: "#b45309", pointRadius: 5, spanGaps: true },
-    goal("Industry norm (<10%)", 10, travLabels.length),
+    { label: "% travelers", data: pad(DATA.travelers.pct, travLabels.length), borderColor: "#b45309", backgroundColor: "#b45309", pointRadius: 4, spanGaps: true },
     ...(travLast ? [goalPath(travLast.idx, travLast.val, travLabels.length - 1, 10, travLabels.length)] : []),
-    goalPoint("Goal: under 10% by 2028", 10, travLabels.length)
+    goalPoint("Goal <10%", 10, travLabels.length)
   ]}, options: { ...common, scales: { y: { min: 0, max: 60 } } } });
 
-  mk("hcahpsChart", { type: "bar", data: { labels: DATA.hcahps.measures, datasets: [
-    { label: "Mission %", data: DATA.hcahps.mission, backgroundColor: "#2563eb", borderRadius: 4 },
-    { label: "National avg % (approx.)", data: DATA.hcahps.national, backgroundColor: "#cbd5e1", borderRadius: 4 }
-  ]}, options: { ...common, indexAxis: "y", scales: { x: { min: 0, max: 100 } } } });
-
-  // Good vs bad proxy with 2028 goal markers (80% high / 10% low)
-  const gbLabels = DATA.goodBad.labels.concat(["Sep 2026","Dec 2026","Mar 2027","2028"]);
-  const gbHighLast = lastActual(DATA.goodBad.high);
-  const gbLowLast = lastActual(DATA.goodBad.low);
-  mk("goodBadChart", { type: "line", data: { labels: gbLabels, datasets: [
-    { label: "Rated 9–10 (%)", data: pad(DATA.goodBad.high, gbLabels.length), borderColor: "#2563eb", backgroundColor: "#2563eb", pointRadius: 5, spanGaps: true },
-    { label: "Rated ≤6 (%)", data: pad(DATA.goodBad.low, gbLabels.length), borderColor: "#dc2626", backgroundColor: "#dc2626", pointRadius: 5, spanGaps: true },
-    goal("Goal high (≥80%)", 80, gbLabels.length),
-    goal("Goal low (≤10%)", 10, gbLabels.length, [2,3]),
-    ...(gbHighLast ? [goalPath(gbHighLast.idx, gbHighLast.val, gbLabels.length - 1, 80, gbLabels.length)] : []),
-    ...(gbLowLast ? [goalPath(gbLowLast.idx, gbLowLast.val, gbLabels.length - 1, 10, gbLabels.length, "")] : []),
-    goalPoint("Goal: 80% high by 2028", 80, gbLabels.length),
-    goalPoint("Goal: 10% low by 2028", 10, gbLabels.length)
-  ]}, options: { ...common, scales: { y: { min: 0, max: 100 } } } });
-
-  // Physicians: maintain ≥ 1,621 by 2028 (only Jul 2026 CMS snapshot exists — no historical series)
-  const phLabels = DATA.physicians.labels.concat(["Oct 2026","Jan 2027","Apr 2027","Jul 2027","2028"]);
-  const phLast = lastActual(DATA.physicians.count);
-  mk("physChart", { type: "line", data: { labels: phLabels, datasets: [
-    { label: "Affiliated clinicians", data: pad(DATA.physicians.count, phLabels.length), borderColor: "#2563eb", backgroundColor: "#2563eb", pointRadius: 5, spanGaps: true },
-    goal("Hold ≥ 1,621", 1621, phLabels.length),
-    ...(phLast ? [goalPath(phLast.idx, phLast.val, phLabels.length - 1, 1621, phLabels.length)] : []),
-    goalPoint("Goal: maintain 1,621 by 2028", 1621, phLabels.length)
-  ]}, options: { ...common, scales: { y: { min: 1400, max: 1900 } } } });
-
-  // Residency Match fill % (Mountain AHEC aggregate) → 100% by 2028
   const matchLabels = DATA.matchFill.labels.concat(["2027","2028"]);
   const matchLast = lastActual(DATA.matchFill.pct);
   mk("matchChart", { type: "line", data: { labels: matchLabels, datasets: [
-    { label: "Main Match fill %", data: pad(DATA.matchFill.pct, matchLabels.length), borderColor: "#2563eb", backgroundColor: "#2563eb", pointRadius: 5, spanGaps: true },
+    { label: "Fill %", data: pad(DATA.matchFill.pct, matchLabels.length), borderColor: "#2563eb", backgroundColor: "#2563eb", pointRadius: 4, spanGaps: true },
     ...(matchLast ? [goalPath(matchLast.idx, matchLast.val, matchLabels.length - 1, 100, matchLabels.length)] : []),
-    goalPoint("Goal: 100% by 2028", 100, matchLabels.length)
-  ]}, options: { ...common, scales: { y: { min: 0, max: 100, ticks: { callback: (v) => v + "%" } } } } });
+    goalPoint("Goal 100%", 100, matchLabels.length)
+  ]}, options: { ...common, scales: { y: { min: 0, max: 100 } } } });
+
+  const gbLabels = DATA.goodBad.labels.concat(["2026","2027","2028"]);
+  const gbH = lastActual(DATA.goodBad.high), gbL = lastActual(DATA.goodBad.low);
+  mk("goodBadChart", { type: "line", data: { labels: gbLabels, datasets: [
+    { label: "Rated 9–10", data: pad(DATA.goodBad.high, gbLabels.length), borderColor: "#2563eb", backgroundColor: "#2563eb", pointRadius: 4, spanGaps: true },
+    { label: "Rated ≤6", data: pad(DATA.goodBad.low, gbLabels.length), borderColor: "#dc2626", backgroundColor: "#dc2626", pointRadius: 4, spanGaps: true },
+    ...(gbH ? [goalPath(gbH.idx, gbH.val, gbLabels.length - 1, 80, gbLabels.length)] : []),
+    ...(gbL ? [goalPath(gbL.idx, gbL.val, gbLabels.length - 1, 10, gbLabels.length, "")] : []),
+    goalPoint("Goal 80%", 80, gbLabels.length),
+    goalPoint("Goal 10%", 10, gbLabels.length)
+  ]}, options: { ...common, scales: { y: { min: 0, max: 100 } } } });
+
+  const phLabels = DATA.physicians.labels.concat(["2027","2028"]);
+  const phLast = lastActual(DATA.physicians.count);
+  mk("physChart", { type: "line", data: { labels: phLabels, datasets: [
+    { label: "Affiliated", data: pad(DATA.physicians.count, phLabels.length), borderColor: "#2563eb", backgroundColor: "#2563eb", pointRadius: 4, spanGaps: true },
+    ...(phLast ? [goalPath(phLast.idx, phLast.val, phLabels.length - 1, 1621, phLabels.length)] : []),
+    goalPoint("Goal 1,621", 1621, phLabels.length)
+  ]}, options: { ...common, scales: { y: { min: 1400, max: 1900 } } } });
+
+  mk("haiChart", { type: "bar", data: { labels: DATA.hai.labels, datasets: [
+    { label: "SIR", data: DATA.hai.sir, backgroundColor: DATA.hai.colors, borderRadius: 3 },
+    { label: "Benchmark (1.0)", data: Array(DATA.hai.labels.length).fill(1), type: "line", borderColor: "#059669", borderDash: [5,4], pointRadius: 0, border: false }
+  ]}, options: { ...common, scales: { y: { beginAtZero: true, suggestedMax: 2.5 } } } });
+
+  mk("edChart", { type: "bar", data: { labels: DATA.ed.labels, datasets: [
+    { label: "Mission", data: DATA.ed.mission, backgroundColor: "#2563eb", borderRadius: 3 },
+    { label: "National", data: DATA.ed.national, backgroundColor: "#cbd5e1", borderRadius: 3 }
+  ]}, options: { ...common, scales: { y: { beginAtZero: true } } } });
+
+  mk("mortChart", { type: "bar", data: { labels: DATA.mortality.labels, datasets: [
+    { label: "30-day mortality %", data: DATA.mortality.rate, backgroundColor: "#64748b", borderRadius: 3 }
+  ]}, options: { ...common, scales: { y: { beginAtZero: true, suggestedMax: 20 } } } });
+
+  mk("readmChart", { type: "bar", data: { labels: DATA.readmit.labels, datasets: [
+    { label: "Readmit %", data: DATA.readmit.rate, backgroundColor: "#2563eb", borderRadius: 3 }
+  ]}, options: { ...common, indexAxis: "y", scales: { x: { beginAtZero: true, suggestedMax: 25 } } } });
+
+  const psiLabels = ["2024","2025","2026","2027","2028"];
+  mk("psiChart", { type: "line", data: { labels: psiLabels, datasets: [
+    { label: "PSI-90", data: [0.68, null, null, null, null], borderColor: "#059669", backgroundColor: "#059669", pointRadius: 5, spanGaps: true },
+    goal("Better-than-natl band", 1.0, psiLabels.length, [4,4]),
+    goalPath(0, 0.68, 4, 0.8, 5),
+    goalPoint("Hold ≤0.8", 0.8, psiLabels.length)
+  ]}, options: { ...common, scales: { y: { min: 0, max: 1.5 } } } });
+
+  const sepLabels = ["2025","2026","2027","2028"];
+  mk("sepsisChart", { type: "line", data: { labels: sepLabels, datasets: [
+    { label: "Mission SEP-1 %", data: [63, null, null, null], borderColor: "#2563eb", backgroundColor: "#2563eb", pointRadius: 5, spanGaps: true },
+    goal("National ~64%", 64, sepLabels.length, [2,3]),
+    goalPath(0, 63, 3, 80, 4),
+    goalPoint("Goal 80%", 80, sepLabels.length)
+  ]}, options: { ...common, scales: { y: { min: 0, max: 100 } } } });
+
+  mk("hcahpsChart", { type: "bar", data: { labels: DATA.hcahps.measures, datasets: [
+    { label: "Mission", data: DATA.hcahps.mission, backgroundColor: "#2563eb", borderRadius: 3 },
+    { label: "National", data: DATA.hcahps.national, backgroundColor: "#cbd5e1", borderRadius: 3 }
+  ]}, options: { ...common, indexAxis: "y", scales: { x: { min: 0, max: 100 } } } });
+
+  mk("marginChart", { type: "line", data: { labels: DATA.margin.labels, datasets: [
+    { label: "Operating margin %", data: DATA.margin.pct, borderColor: "#7c3aed", backgroundColor: "#7c3aed", pointRadius: 4, spanGaps: true }
+  ]}, options: { ...common, scales: { y: { beginAtZero: true } } } });
+
+  const mspbLabels = ["2024","2025","2026","2027","2028"];
+  mk("mspbChart", { type: "line", data: { labels: mspbLabels, datasets: [
+    { label: "MSPB ratio", data: [0.99, null, null, null, null], borderColor: "#2563eb", backgroundColor: "#2563eb", pointRadius: 5, spanGaps: true },
+    goal("National = 1.0", 1.0, mspbLabels.length),
+    goalPath(0, 0.99, 4, 1.0, 5),
+    goalPoint("Hold ≤1.0", 1.0, mspbLabels.length)
+  ]}, options: { ...common, scales: { y: { min: 0.8, max: 1.2 } } } });
+
+  const fluLabels = ["2024-25","2025-26","2026-27","2027-28"];
+  mk("fluChart", { type: "line", data: { labels: fluLabels, datasets: [
+    { label: "Mission %", data: [59, null, null, null], borderColor: "#b45309", backgroundColor: "#b45309", pointRadius: 5, spanGaps: true },
+    goal("National ~78%", 78, fluLabels.length, [2,3]),
+    goalPath(0, 59, 3, 90, 4),
+    goalPoint("Goal 90%", 90, fluLabels.length)
+  ]}, options: { ...common, scales: { y: { min: 0, max: 100 } } } });
 });
 </script>
 </body>
