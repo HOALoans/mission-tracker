@@ -114,10 +114,10 @@
 
 <div class="card">
   <h2>Staffing level (staff-to-bed ratio)</h2>
-  <div class="meta">Source: Medicare cost reports, via Wake Forest / NC Health News analysis · annual, ~1-yr lag</div>
+  <div class="meta">Source: CMS HCRIS Form 2552-10 Worksheet S-3 Part I · hospital FTEs (col 10) ÷ beds (col 2, line 14) · FY ends Sept</div>
   <span class="goal">Goal: 9 by 2028 (pre-sale level)</span>
   <div class="chartbox"><canvas id="staffChart"></canvas></div>
-  <div class="note">Best available proxy for "overall number of nurses": total staff per bed fell from 9.1 (2018, pre-sale) to 4.7 (2023). No audited 2024+ ratio published yet in this series; new cost-report years get appended as CMS releases them. Context: HCA planned ~800 FTE cuts at purchase; 660+ RNs left HCA's Asheville facilities 2022–23; 182 open nursing positions listed Apr 2024.</div>
+  <div class="note">Latest FY2024: 4.8 (3,420 FTEs / 717 beds) — essentially flat vs FY2023 4.7. Pre-sale FY2018 was 8.6 by this CMS method (litigation experts cited ~9.1). FY2025 cost report not yet processed by CMS. Context: HCA planned ~800 FTE cuts at purchase; 660+ RNs left HCA Asheville facilities 2022–23.</div>
 </div>
 
 <div class="card">
@@ -187,7 +187,8 @@ const DATA = {
   },
   // Summary star by year; 2018-2024 from Watchdog/Wake Forest reporting on CMS archives; latest from CMS API
   starTrend: { labels: ["2018","2019","2020","2021","2022","2023","2024","2025*"], mission: [4,2,2,2,1,1,1,2] },
-  staffRatio: { labels: ["2018","2023"], ratio: [9.1,4.7] },
+  // CMS HCRIS S-3 Part I: hospital FTEs (line 14 col 10) / beds (line 14 col 2); FY ends 9/30
+  staffRatio: { labels: ["2018","2021","2022","2023","2024"], ratio: [8.6,5.1,4.6,4.7,4.8] },
   hcahps: {
     measures: ["Nurses always communicated","Doctors always communicated","Room always clean","Always quiet at night","Rated 9–10","Definitely recommend"],
     mission: [72,73,51,52,58,53],
@@ -285,7 +286,7 @@ window.addEventListener("load", function () {
   ]}, options: { ...common, scales: { y: { min: 0, max: 5, ticks: { stepSize: 1 } } } } });
 
   // Staff-to-bed with 2028 goal marker (same pattern as 4★ HCAHPS target)
-  const staffLabels = DATA.staffRatio.labels.concat(["2024","2025","2026","2027","2028"]);
+  const staffLabels = DATA.staffRatio.labels.concat(["2025","2026","2027","2028"]);
   const staffLast = lastActual(DATA.staffRatio.ratio);
   mk("staffChart", { type: "line", data: { labels: staffLabels, datasets: [
     { label: "Staff per bed", data: pad(DATA.staffRatio.ratio, staffLabels.length), borderColor: "#b45309", backgroundColor: "#b45309", pointRadius: 5, spanGaps: true },

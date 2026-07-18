@@ -36,10 +36,17 @@
   },
   "staffing": {
     "staffToBedRatio": {
-      "source": "Medicare cost reports via Wake Forest report (NC Health News, 2025-02-08)",
-      "byYear": { "2018": 9.1, "2023": 4.7 },
+      "source": "CMS HCRIS Hospital Form 2552-10 (HOSP10FY####.zip); Worksheet S-3 Part I line 14: employees on payroll FTEs (col 10) ÷ beds (col 2); FY ends 9/30; provider 340002",
+      "method": "fte14 / beds14",
+      "byYear": {
+        "2018": { "ratio": 8.6, "fte": 6051.96, "beds": 701, "fyEnd": "2018-09-30" },
+        "2021": { "ratio": 5.1, "fte": 3706.36, "beds": 733, "fyEnd": "2021-09-30" },
+        "2022": { "ratio": 4.6, "fte": 3392.69, "beds": 733, "fyEnd": "2022-09-30" },
+        "2023": { "ratio": 4.7, "fte": 3371.29, "beds": 717, "fyEnd": "2023-09-30", "note": "Matches published litigation/Watchdog 4.7" },
+        "2024": { "ratio": 4.8, "fte": 3419.57, "beds": 717, "fyEnd": "2024-09-30" }
+      },
       "goal": "9 by 2028 (pre-sale level)",
-      "note": "No audited 2024+ ratio published yet in this staff-to-bed series (Wake Forest / NC Health News / antitrust expert analyses of Medicare cost reports). Different FTE-per-occupied-bed series (e.g. 6.0 in 2018 → 3.7 in 2021) exists but is not mixed here."
+      "note": "FY2025 report pending CMS processing (hcris.io). Pre-sale CMS recomputation is 8.6; some published analyses cited ~9.1 for 2018 using a related methodology."
     },
     "travelers": {
       "source": "News-reported estimates; audited data from Medicare cost report Worksheet S-3 (contract labor hours vs employed), ~1yr lag",

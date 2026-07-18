@@ -15,7 +15,7 @@ Dashboard tracking Mission Hospital (Asheville, NC — CMS CCN **340002**, HCA-o
 | IJ / EMTALA violations | Yes | CMS Form 2567 inspections (news + CMS QCOR) | As they occur |
 | Patient satisfaction | Yes | CMS HCAHPS API (dataset `dgck-syfz`) | Quarterly |
 | Good vs bad experiences | Proxy only | HCAHPS rated 9–10 vs ≤6 | Quarterly |
-| Nurse counts | Proxy | Cost-report staff-to-bed ratio (9.1 in 2018 → 4.7 in 2023) | Annual, ~1yr lag |
+| Nurse counts | Proxy | Cost-report staff-to-bed ratio (CMS HCRIS: 8.6 in 2018 → 4.8 in 2024) | Annual, ~1yr lag |
 | % travelers | Proxy | Cost report Worksheet S-3 contract-labor hours; news estimates (~40% in 2024) | Annual |
 | Residency fill | Yes | NRMP Program Results (Mountain AHEC–Asheville aggregate) | Each March |
 | Physician retention | Proxy | CMS facility-affiliation count (baseline 1,621, Jul 2026) | Quarterly |
