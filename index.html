@@ -110,7 +110,7 @@
 <div class="card">
   <h2>Good vs. bad experiences (proxy)</h2>
   <div class="meta">Proxy: HCAHPS % rating hospital 9–10 vs. 6-or-lower, by survey period</div>
-  <span class="goal">Goal: high ≥ 71% (national avg) · low ≤ 8%</span>
+  <span class="goal">Goal: high ≥ 80% by 2028 · low ≤ 10% by 2028</span>
   <div class="chartbox"><canvas id="goodBadChart"></canvas></div>
   <div class="note">Not an official "good vs bad reports" metric — closest standardized measure. Currently 58% high vs 16% low (~3.6:1). Quarterly snapshots build the trend.</div>
 </div>
@@ -241,11 +241,19 @@ window.addEventListener("load", function () {
     { label: "National avg % (approx.)", data: DATA.hcahps.national, backgroundColor: "#cbd5e1", borderRadius: 4 }
   ]}, options: { ...common, indexAxis: "y", scales: { x: { min: 0, max: 100 } } } });
 
-  const gbLabels = DATA.goodBad.labels.concat(["Sep 2026","Dec 2026","Mar 2027"]);
+  // Good vs bad proxy with 2028 goal markers (80% high / 10% low)
+  const gbLabels = DATA.goodBad.labels.concat(["Sep 2026","Dec 2026","Mar 2027","2028"]);
+  const gbGoalHigh = Array(gbLabels.length).fill(null);
+  const gbGoalLow = Array(gbLabels.length).fill(null);
+  gbGoalHigh[gbLabels.length - 1] = 80; // high ≥ 80% by 2028
+  gbGoalLow[gbLabels.length - 1] = 10;  // low ≤ 10% by 2028
   mk("goodBadChart", { type: "line", data: { labels: gbLabels, datasets: [
     { label: "Rated 9–10 (%)", data: pad(DATA.goodBad.high, gbLabels.length), borderColor: "#2563eb", backgroundColor: "#2563eb", pointRadius: 5, spanGaps: true },
     { label: "Rated ≤6 (%)", data: pad(DATA.goodBad.low, gbLabels.length), borderColor: "#dc2626", backgroundColor: "#dc2626", pointRadius: 5, spanGaps: true },
-    goal("Goal high (71%)", 71, gbLabels.length)
+    goal("Goal high (≥80%)", 80, gbLabels.length),
+    goal("Goal low (≤10%)", 10, gbLabels.length, [2,3]),
+    { label: "Goal: 80% high by 2028", data: gbGoalHigh, borderColor: "#059669", backgroundColor: "#059669", pointRadius: 7, pointStyle: "triangle", showLine: false, spanGaps: true },
+    { label: "Goal: 10% low by 2028", data: gbGoalLow, borderColor: "#059669", backgroundColor: "#059669", pointRadius: 7, pointStyle: "triangle", showLine: false, spanGaps: true }
   ]}, options: { ...common, scales: { y: { min: 0, max: 100 } } } });
 
   const phLabels = DATA.physicians.labels.concat(["Oct 2026","Jan 2027","Apr 2027"]);

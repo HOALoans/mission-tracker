@@ -32,7 +32,7 @@
       "rated9or10": { "mission": 58, "national": 71 },
       "definitelyRecommend": { "mission": 53, "national": 69 }
     },
-    "goodVsBadProxy": { "rated9or10": 58, "rated6orLower": 16, "goal": "high >= 71, low <= 8" }
+    "goodVsBadProxy": { "rated9or10": 58, "rated6orLower": 16, "goal": "high >= 80 by 2028, low <= 10 by 2028" }
   },
   "staffing": {
     "staffToBedRatio": {
