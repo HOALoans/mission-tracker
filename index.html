@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mission Hospital (Asheville, NC) - Road to Recovery Dashboard</title>
-<script src="vendor/chart.umd.js"></script>
+<script src="vendor/chart.umd.js?v=20260718b"></script>
 <style>
   :root { color-scheme: light; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -21,6 +22,13 @@
   .card .meta { font-size: 0.68rem; color: #94a3b8; margin-bottom: 6px; }
   .goal { display: inline-block; background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; border-radius: 999px; font-size: 0.65rem; padding: 1px 8px; margin-bottom: 6px; }
   .chartbox { position: relative; height: 200px; }
+  .chartbox.tall { height: 260px; }
+  .minitable { width: 100%; border-collapse: collapse; font-size: 0.68rem; margin-top: 4px; }
+  .minitable th, .minitable td { text-align: right; padding: 2px 4px; border-bottom: 1px solid #f1f5f9; }
+  .minitable th:first-child, .minitable td:first-child { text-align: left; }
+  .minitable th { color: #64748b; font-weight: 600; }
+  .minitable .better { color: #047857; }
+  .minitable .same { color: #64748b; }
   .stat { font-size: 1.55rem; font-weight: 700; }
   .statrow { display: flex; gap: 14px; flex-wrap: wrap; margin: 6px 0 8px; }
   .statlbl { font-size: 0.7rem; color: #64748b; }
@@ -123,23 +131,40 @@
   <h2>30-day mortality rates</h2>
   <div class="meta">CMS Complications &amp; Deaths · Mission vs national %</div>
   <span class="goal">Goal: no “worse than national” by 2028</span>
-  <div class="chartbox"><canvas id="mortChart"></canvas></div>
-  <div class="note">All six condition rates currently no different than national.</div>
+  <table class="minitable">
+    <tr><th></th><th>Mission</th><th>National</th><th>vs</th></tr>
+    <tr><td>AMI</td><td>10.9%</td><td>12.2%</td><td class="same">Same</td></tr>
+    <tr><td>CABG</td><td>2.5%</td><td>2.6%</td><td class="same">Same</td></tr>
+    <tr><td>COPD</td><td>8.0%</td><td>8.8%</td><td class="same">Same</td></tr>
+    <tr><td>HF</td><td>11.5%</td><td>11.6%</td><td class="same">Same</td></tr>
+    <tr><td>Pneumonia</td><td>15.3%</td><td>16.2%</td><td class="same">Same</td></tr>
+    <tr><td>Stroke</td><td>13.5%</td><td>13.3%</td><td class="same">Same</td></tr>
+  </table>
+  <div class="chartbox tall"><canvas id="mortChart"></canvas></div>
+  <div class="note">Source: CMS ynj2-r877 / qqw3-t4ie. All currently no different than national.</div>
 </div>
 
 <div class="card">
   <h2>Complications vs national</h2>
   <div class="meta">CMS Complications &amp; Deaths · key safety measures</div>
   <span class="goal">Goal: no “worse than national” by 2028</span>
-  <div class="chartbox"><canvas id="compChart"></canvas></div>
-  <div class="note">PSI-90, pressure ulcers, and PE/DVT better than national; hip/knee &amp; hospital-wide mortality no different.</div>
+  <table class="minitable">
+    <tr><th></th><th>Mission</th><th>National</th><th>vs</th></tr>
+    <tr><td>PSI-90</td><td>0.68</td><td>1.00</td><td class="better">Better</td></tr>
+    <tr><td>Pressure ulcer</td><td>0.05</td><td>0.63</td><td class="better">Better</td></tr>
+    <tr><td>PE/DVT</td><td>2.00</td><td>3.52</td><td class="better">Better</td></tr>
+    <tr><td>Hip/knee comp</td><td>3.2</td><td>3.6</td><td class="same">Same</td></tr>
+    <tr><td>Hosp-wide mort</td><td>3.7%</td><td>4.2%</td><td class="same">Same</td></tr>
+  </table>
+  <div class="chartbox tall"><canvas id="compChart"></canvas></div>
+  <div class="note">Chart shows Mission as % of national (100 = national; lower better).</div>
 </div>
 
 <div class="card">
   <h2>Readmissions</h2>
   <div class="meta">CMS Unplanned Visits · Mission vs national %</div>
   <span class="goal">Goal: hold/improve vs national by 2028</span>
-  <div class="chartbox"><canvas id="readmChart"></canvas></div>
+  <div class="chartbox tall"><canvas id="readmChart"></canvas></div>
   <div class="note">Hospital-wide 13.8% vs national 15.0% (better). AMI also better than national.</div>
 </div>
 
@@ -403,19 +428,18 @@ window.addEventListener("load", function () {
 
   mk("mortChart", { type: "bar", data: { labels: DATA.mortality.labels, datasets: [
     { label: "Mission", data: DATA.mortality.mission, backgroundColor: "#2563eb", borderRadius: 3 },
-    { label: "National", data: DATA.mortality.national, backgroundColor: "#cbd5e1", borderRadius: 3 }
-  ]}, options: { ...common, indexAxis: "y", scales: { x: { min: 0, max: 18 } } } });
+    { label: "National", data: DATA.mortality.national, backgroundColor: "#94a3b8", borderRadius: 3 }
+  ]}, options: { ...common, indexAxis: "y", scales: { x: { min: 0, max: 18 } }, datasets: { bar: { categoryPercentage: 0.8, barPercentage: 0.9 } } } } });
 
-  const compColors = DATA.complications.status.map(s => s === "Better" ? "#059669" : s === "Worse" ? "#dc2626" : "#94a3b8");
+  const compColors = DATA.complications.status.map(s => s === "Better" ? "#059669" : s === "Worse" ? "#dc2626" : "#64748b");
   mk("compChart", { type: "bar", data: { labels: DATA.complications.labels, datasets: [
-    { label: "Mission as % of national", data: DATA.complications.pctOfNational, backgroundColor: compColors, borderRadius: 3 },
-    { label: "National = 100%", data: Array(DATA.complications.labels.length).fill(100), type: "line", borderColor: "#059669", borderDash: [5,4], pointRadius: 0, order: 0 }
-  ]}, options: { ...common, indexAxis: "y", scales: { x: { min: 0, max: 110, title: { display: true, text: "% of national (lower better)", font: { size: 9 } } } } } });
+    { label: "Mission as % of national (100=natl)", data: DATA.complications.pctOfNational, backgroundColor: compColors, borderRadius: 3 }
+  ]}, options: { ...common, indexAxis: "y", plugins: { ...common.plugins, annotation: undefined }, scales: { x: { min: 0, max: 110, title: { display: true, text: "% of national — 100 = national (lower better)", font: { size: 9 } }, grid: { color: (ctx) => ctx.tick.value === 100 ? "#059669" : "rgba(0,0,0,0.06)" } } }, datasets: { bar: { categoryPercentage: 0.75, barPercentage: 0.9 } } } } });
 
   mk("readmChart", { type: "bar", data: { labels: DATA.readmit.labels, datasets: [
     { label: "Mission", data: DATA.readmit.mission, backgroundColor: "#2563eb", borderRadius: 3 },
-    { label: "National", data: DATA.readmit.national, backgroundColor: "#cbd5e1", borderRadius: 3 }
-  ]}, options: { ...common, indexAxis: "y", scales: { x: { min: 0, max: 22 } } } });
+    { label: "National", data: DATA.readmit.national, backgroundColor: "#94a3b8", borderRadius: 3 }
+  ]}, options: { ...common, indexAxis: "y", scales: { x: { min: 0, max: 22 } }, datasets: { bar: { categoryPercentage: 0.8, barPercentage: 0.9 } } } } });
 
   const psiLabels = ["2024","2025","2026","2027","2028"];
   mk("psiChart", { type: "line", data: { labels: psiLabels, datasets: [
