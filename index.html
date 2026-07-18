@@ -145,10 +145,13 @@
 
 <div class="card">
   <h2>ED wait &amp; left-without-being-seen</h2>
-  <div class="meta">CMS Timely &amp; Effective Care</div>
+  <div class="meta">CMS Timely &amp; Effective Care · median minutes</div>
   <span class="goal">Goal: ED ≤ national; LWBS ≤ 1% by 2028</span>
+  <div class="statrow">
+    <div><div class="stat good">0%</div><div class="statlbl">LWBS (natl ~2%)</div></div>
+  </div>
   <div class="chartbox"><canvas id="edChart"></canvas></div>
-  <div class="note">Median ED time 173 min (natl 161). LWBS 0% (natl ~2%).</div>
+  <div class="note">Median ED time 173 min vs national 161. Volume: very high.</div>
 </div>
 
 <div class="card">
@@ -251,9 +254,10 @@ const DATA = {
     colors: ["#059669","#059669","#94a3b8","#dc2626","#94a3b8","#059669"]
   },
   ed: {
-    labels: ["ED median min","LWBS %"],
-    mission: [173, 0],
-    national: [161, 2]
+    labels: ["ED median min"],
+    mission: [173],
+    national: [161],
+    lwbs: { mission: 0, national: 2 }
   },
   mortality: {
     labels: ["AMI","CABG","COPD","HF","Pneumonia","Stroke"],
@@ -335,14 +339,14 @@ window.addEventListener("load", function () {
     { label: "HCAHPS stars", data: pad(DATA.starTrend.mission, starLabels.length), borderColor: "#2563eb", backgroundColor: "#2563eb", pointRadius: 3, tension: 0.25, spanGaps: true },
     ...(starLast ? [goalPath(starLast.idx, starLast.val, starLabels.length - 1, 4, starLabels.length)] : []),
     goalPoint("Goal 4★", 4, starLabels.length)
-  ]}, options: { ...common, scales: { y: { min: 0, max: 5, ticks: { stepSize: 1 } } } } });
+  ]}, options: { ...common, scales: { y: { min: 1, max: 5, ticks: { stepSize: 1 } } } } });
 
   const ovLabels = ["2026","2027","2028"];
   mk("overallStarChart", { type: "line", data: { labels: ovLabels, datasets: [
     { label: "Overall CMS stars", data: [3, null, null], borderColor: "#2563eb", backgroundColor: "#2563eb", pointRadius: 5, spanGaps: true },
     goalPath(0, 3, 2, 4, 3),
     goalPoint("Goal 4★", 4, 3)
-  ]}, options: { ...common, scales: { y: { min: 0, max: 5, ticks: { stepSize: 1 } } } } });
+  ]}, options: { ...common, scales: { y: { min: 2, max: 5, ticks: { stepSize: 1 } } } } });
 
   const staffLabels = DATA.staffRatio.labels.concat(["2025","2026","2027","2028"]);
   const staffLast = lastActual(DATA.staffRatio.ratio);
@@ -350,7 +354,7 @@ window.addEventListener("load", function () {
     { label: "Staff per bed", data: pad(DATA.staffRatio.ratio, staffLabels.length), borderColor: "#b45309", backgroundColor: "#b45309", pointRadius: 4, spanGaps: true },
     ...(staffLast ? [goalPath(staffLast.idx, staffLast.val, staffLabels.length - 1, 9, staffLabels.length)] : []),
     goalPoint("Goal 9", 9, staffLabels.length)
-  ]}, options: { ...common, scales: { y: { min: 0, max: 10 } } } });
+  ]}, options: { ...common, scales: { y: { min: 4, max: 10, ticks: { stepSize: 1 } } } } });
 
   const travLabels = DATA.travelers.labels.concat(["2025","2026","2027","2028"]);
   const travLast = lastActual(DATA.travelers.pct);
@@ -358,7 +362,7 @@ window.addEventListener("load", function () {
     { label: "% travelers", data: pad(DATA.travelers.pct, travLabels.length), borderColor: "#b45309", backgroundColor: "#b45309", pointRadius: 4, spanGaps: true },
     ...(travLast ? [goalPath(travLast.idx, travLast.val, travLabels.length - 1, 10, travLabels.length)] : []),
     goalPoint("Goal <10%", 10, travLabels.length)
-  ]}, options: { ...common, scales: { y: { min: 0, max: 60 } } } });
+  ]}, options: { ...common, scales: { y: { min: 0, max: 45 } } } });
 
   const matchLabels = DATA.matchFill.labels.concat(["2027","2028"]);
   const matchLast = lastActual(DATA.matchFill.pct);
@@ -366,7 +370,7 @@ window.addEventListener("load", function () {
     { label: "Fill %", data: pad(DATA.matchFill.pct, matchLabels.length), borderColor: "#2563eb", backgroundColor: "#2563eb", pointRadius: 4, spanGaps: true },
     ...(matchLast ? [goalPath(matchLast.idx, matchLast.val, matchLabels.length - 1, 100, matchLabels.length)] : []),
     goalPoint("Goal 100%", 100, matchLabels.length)
-  ]}, options: { ...common, scales: { y: { min: 0, max: 100 } } } });
+  ]}, options: { ...common, scales: { y: { min: 75, max: 105 } } } });
 
   const gbLabels = DATA.goodBad.labels.concat(["2026","2027","2028"]);
   const gbH = lastActual(DATA.goodBad.high), gbL = lastActual(DATA.goodBad.low);
@@ -377,7 +381,7 @@ window.addEventListener("load", function () {
     ...(gbL ? [goalPath(gbL.idx, gbL.val, gbLabels.length - 1, 10, gbLabels.length, "")] : []),
     goalPoint("Goal 80%", 80, gbLabels.length),
     goalPoint("Goal 10%", 10, gbLabels.length)
-  ]}, options: { ...common, scales: { y: { min: 0, max: 100 } } } });
+  ]}, options: { ...common, scales: { y: { min: 0, max: 90 } } } });
 
   const phLabels = DATA.physicians.labels.concat(["2027","2028"]);
   const phLast = lastActual(DATA.physicians.count);
@@ -385,33 +389,33 @@ window.addEventListener("load", function () {
     { label: "Affiliated", data: pad(DATA.physicians.count, phLabels.length), borderColor: "#2563eb", backgroundColor: "#2563eb", pointRadius: 4, spanGaps: true },
     ...(phLast ? [goalPath(phLast.idx, phLast.val, phLabels.length - 1, 1621, phLabels.length)] : []),
     goalPoint("Goal 1,621", 1621, phLabels.length)
-  ]}, options: { ...common, scales: { y: { min: 1400, max: 1900 } } } });
+  ]}, options: { ...common, scales: { y: { min: 1550, max: 1700 } } } });
 
   mk("haiChart", { type: "bar", data: { labels: DATA.hai.labels, datasets: [
     { label: "SIR", data: DATA.hai.sir, backgroundColor: DATA.hai.colors, borderRadius: 3 },
     { label: "Benchmark (1.0)", data: Array(DATA.hai.labels.length).fill(1), type: "line", borderColor: "#059669", borderDash: [5,4], pointRadius: 0, border: false }
-  ]}, options: { ...common, scales: { y: { beginAtZero: true, suggestedMax: 2.5 } } } });
+  ]}, options: { ...common, scales: { y: { min: 0, max: 2.5 } } } });
 
   mk("edChart", { type: "bar", data: { labels: DATA.ed.labels, datasets: [
     { label: "Mission", data: DATA.ed.mission, backgroundColor: "#2563eb", borderRadius: 3 },
     { label: "National", data: DATA.ed.national, backgroundColor: "#cbd5e1", borderRadius: 3 }
-  ]}, options: { ...common, scales: { y: { beginAtZero: true } } } });
+  ]}, options: { ...common, indexAxis: "y", scales: { x: { min: 150, max: 185 } } } });
 
   mk("mortChart", { type: "bar", data: { labels: DATA.mortality.labels, datasets: [
     { label: "Mission", data: DATA.mortality.mission, backgroundColor: "#2563eb", borderRadius: 3 },
     { label: "National", data: DATA.mortality.national, backgroundColor: "#cbd5e1", borderRadius: 3 }
-  ]}, options: { ...common, indexAxis: "y", scales: { x: { beginAtZero: true, suggestedMax: 20 } } } });
+  ]}, options: { ...common, indexAxis: "y", scales: { x: { min: 0, max: 18 } } } });
 
   const compColors = DATA.complications.status.map(s => s === "Better" ? "#059669" : s === "Worse" ? "#dc2626" : "#94a3b8");
   mk("compChart", { type: "bar", data: { labels: DATA.complications.labels, datasets: [
     { label: "Mission as % of national", data: DATA.complications.pctOfNational, backgroundColor: compColors, borderRadius: 3 },
     { label: "National = 100%", data: Array(DATA.complications.labels.length).fill(100), type: "line", borderColor: "#059669", borderDash: [5,4], pointRadius: 0, order: 0 }
-  ]}, options: { ...common, indexAxis: "y", scales: { x: { beginAtZero: true, max: 120, title: { display: true, text: "% of national (lower better)", font: { size: 9 } } } } } });
+  ]}, options: { ...common, indexAxis: "y", scales: { x: { min: 0, max: 110, title: { display: true, text: "% of national (lower better)", font: { size: 9 } } } } } });
 
   mk("readmChart", { type: "bar", data: { labels: DATA.readmit.labels, datasets: [
     { label: "Mission", data: DATA.readmit.mission, backgroundColor: "#2563eb", borderRadius: 3 },
     { label: "National", data: DATA.readmit.national, backgroundColor: "#cbd5e1", borderRadius: 3 }
-  ]}, options: { ...common, indexAxis: "y", scales: { x: { beginAtZero: true, suggestedMax: 25 } } } });
+  ]}, options: { ...common, indexAxis: "y", scales: { x: { min: 0, max: 22 } } } });
 
   const psiLabels = ["2024","2025","2026","2027","2028"];
   mk("psiChart", { type: "line", data: { labels: psiLabels, datasets: [
@@ -419,7 +423,7 @@ window.addEventListener("load", function () {
     goal("Better-than-natl band", 1.0, psiLabels.length, [4,4]),
     goalPath(0, 0.68, 4, 0.8, 5),
     goalPoint("Hold ≤0.8", 0.8, psiLabels.length)
-  ]}, options: { ...common, scales: { y: { min: 0, max: 1.5 } } } });
+  ]}, options: { ...common, scales: { y: { min: 0.5, max: 1.15 } } } });
 
   const sepLabels = ["2025","2026","2027","2028"];
   mk("sepsisChart", { type: "line", data: { labels: sepLabels, datasets: [
@@ -427,16 +431,16 @@ window.addEventListener("load", function () {
     goal("National ~64%", 64, sepLabels.length, [2,3]),
     goalPath(0, 63, 3, 80, 4),
     goalPoint("Goal 80%", 80, sepLabels.length)
-  ]}, options: { ...common, scales: { y: { min: 0, max: 100 } } } });
+  ]}, options: { ...common, scales: { y: { min: 55, max: 85 } } } });
 
   mk("hcahpsChart", { type: "bar", data: { labels: DATA.hcahps.measures, datasets: [
     { label: "Mission", data: DATA.hcahps.mission, backgroundColor: "#2563eb", borderRadius: 3 },
     { label: "National", data: DATA.hcahps.national, backgroundColor: "#cbd5e1", borderRadius: 3 }
-  ]}, options: { ...common, indexAxis: "y", scales: { x: { min: 0, max: 100 } } } });
+  ]}, options: { ...common, indexAxis: "y", scales: { x: { min: 45, max: 85 } } } });
 
   mk("marginChart", { type: "line", data: { labels: DATA.margin.labels, datasets: [
     { label: "Operating margin %", data: DATA.margin.pct, borderColor: "#7c3aed", backgroundColor: "#7c3aed", pointRadius: 4, spanGaps: true }
-  ]}, options: { ...common, scales: { y: { beginAtZero: true } } } });
+  ]}, options: { ...common, scales: { y: { min: 0, max: 20 } } } });
 
   mk("mspbFluChart", { type: "bar", data: {
     labels: ["MSPB (×100)", "Flu vax %"],
@@ -444,7 +448,7 @@ window.addEventListener("load", function () {
       { label: "Mission", data: [99, 59], backgroundColor: ["#2563eb","#b45309"], borderRadius: 3 },
       { label: "National / goal ref", data: [100, 78], backgroundColor: "#cbd5e1", borderRadius: 3 }
     ]
-  }, options: { ...common, scales: { y: { beginAtZero: true, max: 100 } } } });
+  }, options: { ...common, scales: { y: { min: 50, max: 105 } } } });
 });
 </script>
 </body>
