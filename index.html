@@ -141,9 +141,9 @@
 <div class="card">
   <h2>Physicians affiliated with Mission</h2>
   <div class="meta">Source: CMS Doctors &amp; Clinicians facility-affiliation file · quarterly snapshot count</div>
-  <span class="goal">Goal: stable or growing count</span>
+  <span class="goal">Goal: maintain ≥ 1,621 by 2028</span>
   <div class="chartbox"><canvas id="physChart"></canvas></div>
-  <div class="note">Proxy for "practices can attract and retain physicians." Baseline 1,621 clinicians (Jul 2026); trend fills in with each quarterly refresh.</div>
+  <div class="note">Proxy for "practices can attract and retain physicians." Only one CMS affiliation snapshot so far: 1,621 clinicians (Jul 2026). No public historical CMS time series; HCA has not published staff totals (Watchdog documented ~223 Find-a-Doctor removals 2019–2022, not comparable to this count). Quarterly refreshes append here.</div>
 </div>
 
 <div class="card">
@@ -325,11 +325,14 @@ window.addEventListener("load", function () {
     goalPoint("Goal: 10% low by 2028", 10, gbLabels.length)
   ]}, options: { ...common, scales: { y: { min: 0, max: 100 } } } });
 
-  // Physicians: hold baseline only (no numeric 2028 target — do not invent one)
-  const phLabels = DATA.physicians.labels.concat(["Oct 2026","Jan 2027","Apr 2027"]);
+  // Physicians: maintain ≥ 1,621 by 2028 (only Jul 2026 CMS snapshot exists — no historical series)
+  const phLabels = DATA.physicians.labels.concat(["Oct 2026","Jan 2027","Apr 2027","Jul 2027","2028"]);
+  const phLast = lastActual(DATA.physicians.count);
   mk("physChart", { type: "line", data: { labels: phLabels, datasets: [
     { label: "Affiliated clinicians", data: pad(DATA.physicians.count, phLabels.length), borderColor: "#2563eb", backgroundColor: "#2563eb", pointRadius: 5, spanGaps: true },
-    goal("Goal (hold ≥ 1,621 baseline)", 1621, phLabels.length)
+    goal("Hold ≥ 1,621", 1621, phLabels.length),
+    ...(phLast ? [goalPath(phLast.idx, phLast.val, phLabels.length - 1, 1621, phLabels.length)] : []),
+    goalPoint("Goal: maintain 1,621 by 2028", 1621, phLabels.length)
   ]}, options: { ...common, scales: { y: { min: 1400, max: 1900 } } } });
 });
 </script>
