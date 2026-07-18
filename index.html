@@ -95,9 +95,9 @@
 <div class="card">
   <h2>Traveler / contract nurse share (proxy)</h2>
   <div class="meta">Sources: union &amp; staff estimates (news-reported); audited cost-report contract-labor split added annually</div>
-  <span class="goal">Goal: under 10% travelers (industry norm)</span>
+  <span class="goal">Goal: under 10% travelers by 2028</span>
   <div class="chartbox"><canvas id="travelerChart"></canvas></div>
-  <div class="note">~1,550 travelers on 2,680+ contracts Jul 2022–Apr 2024. Union estimated ~40% travelers in 2024; staff nurses estimated ~50% in some units. Worksheet S-3 contract-labor hours will replace estimates as cost reports post.</div>
+  <div class="note">~1,550 travelers on 2,680+ contracts Jul 2022–Apr 2024. Union estimated ~40% travelers in 2024; staff nurses estimated ~50% in some units. Asheville Watchdog (Dec 2025 staffing lists): ~527 travelers + ~1,500 FT nurses (described as ~quarter). No audited Worksheet S-3 % yet; contract-labor hours will replace estimates as cost reports post.</div>
 </div>
 
 <div class="card">
@@ -226,10 +226,14 @@ window.addEventListener("load", function () {
     { label: "Goal: 9 by 2028", data: staffGoal9, borderColor: "#059669", backgroundColor: "#059669", pointRadius: 7, pointStyle: "triangle", showLine: false, spanGaps: true }
   ]}, options: { ...common, scales: { y: { min: 0, max: 10 } } } });
 
-  const travLabels = DATA.travelers.labels.concat(["2025","2026","2027"]);
+  // Traveler share with 2028 goal marker (same pattern as staff-to-bed / 4★)
+  const travLabels = DATA.travelers.labels.concat(["2025","2026","2027","2028"]);
+  const travGoal10 = Array(travLabels.length).fill(null);
+  travGoal10[travLabels.length - 1] = 10; // under 10% goal marked at 2028
   mk("travelerChart", { type: "line", data: { labels: travLabels, datasets: [
     { label: "% traveler/contract nurses", data: pad(DATA.travelers.pct, travLabels.length), borderColor: "#b45309", backgroundColor: "#b45309", pointRadius: 5, spanGaps: true },
-    goal("Goal (<10%)", 10, travLabels.length)
+    goal("Industry norm (<10%)", 10, travLabels.length),
+    { label: "Goal: under 10% by 2028", data: travGoal10, borderColor: "#059669", backgroundColor: "#059669", pointRadius: 7, pointStyle: "triangle", showLine: false, spanGaps: true }
   ]}, options: { ...common, scales: { y: { min: 0, max: 60 } } } });
 
   mk("hcahpsChart", { type: "bar", data: { labels: DATA.hcahps.measures, datasets: [

@@ -22,7 +22,7 @@ Dashboard tracking Mission Hospital (Asheville, NC — CMS CCN **340002**, HCA-o
 
 ## Long-range goals (charted as goal lines)
 
-0 IJs by 2028, sustained · HCAHPS 4★ by 2028 (pre-sale), 3★ interim · rated-9-10 ≥ 71% / rated-≤6 ≤ 8% · staff-to-bed 9 by 2028 (pre-sale) · travelers < 10% · affiliated clinicians ≥ 1,621 · 100% Match fill.
+0 IJs by 2028, sustained · HCAHPS 4★ by 2028 (pre-sale), 3★ interim · rated-9-10 ≥ 71% / rated-≤6 ≤ 8% · staff-to-bed 9 by 2028 (pre-sale) · travelers < 10% by 2028 · affiliated clinicians ≥ 1,621 · 100% Match fill.
 
 ## Key history
 
