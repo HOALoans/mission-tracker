@@ -147,14 +147,11 @@
 </div>
 
 <div class="card">
-  <h2>Residency match fill (MAHEC / Mission GME)</h2>
-  <div class="meta">Source: NRMP Match results, annual (each March)</div>
-  <span class="goal">Goal: 100% fill in the main Match, no SOAP reliance</span>
-  <div class="statrow">
-    <div><div class="stat warn">75</div><div class="statlbl">residents &amp; fellows welcomed (most recent reported class)</div></div>
-    <div><div class="stat">—</div><div class="statlbl">program-level fill % (added each March from NRMP)</div></div>
-  </div>
-  <div class="note">NRMP publishes program-level fill/unfilled results annually. Next data point: March 2027 Match.</div>
+  <h2>Residency match fill (Mountain AHEC / Mission GME)</h2>
+  <div class="meta">Source: NRMP Main Match Program Results · Mountain AHEC–NC Asheville · all program tracks aggregated</div>
+  <span class="goal">Goal: 100% main-Match fill by 2028</span>
+  <div class="chartbox"><canvas id="matchChart"></canvas></div>
+  <div class="note">Fill % = positions filled ÷ quota in the main Match (before SOAP). Latest (2026): 59 of 73 filled (81%) — Internal Medicine filled only 10 of 18. Next update: March 2027.</div>
 </div>
 
 <div class="card">
@@ -198,7 +195,9 @@ const DATA = {
   },
   goodBad: { labels: ["Jun 2025"], high: [58], low: [16] },
   travelers: { labels: ["2022","2024"], pct: [null,40] },
-  physicians: { labels: ["Jul 2026"], count: [1621] }
+  physicians: { labels: ["Jul 2026"], count: [1621] },
+  // Mountain AHEC–NC Asheville aggregate fill % from NRMP Program Results (quota/filled across tracks)
+  matchFill: { labels: ["2022","2023","2024","2025","2026"], pct: [81,96,87,97,81], filled: [54,65,62,71,59], quota: [67,68,71,73,73] }
 };
 // ==================================================================================================
 
@@ -334,6 +333,15 @@ window.addEventListener("load", function () {
     ...(phLast ? [goalPath(phLast.idx, phLast.val, phLabels.length - 1, 1621, phLabels.length)] : []),
     goalPoint("Goal: maintain 1,621 by 2028", 1621, phLabels.length)
   ]}, options: { ...common, scales: { y: { min: 1400, max: 1900 } } } });
+
+  // Residency Match fill % (Mountain AHEC aggregate) → 100% by 2028
+  const matchLabels = DATA.matchFill.labels.concat(["2027","2028"]);
+  const matchLast = lastActual(DATA.matchFill.pct);
+  mk("matchChart", { type: "line", data: { labels: matchLabels, datasets: [
+    { label: "Main Match fill %", data: pad(DATA.matchFill.pct, matchLabels.length), borderColor: "#2563eb", backgroundColor: "#2563eb", pointRadius: 5, spanGaps: true },
+    ...(matchLast ? [goalPath(matchLast.idx, matchLast.val, matchLabels.length - 1, 100, matchLabels.length)] : []),
+    goalPoint("Goal: 100% by 2028", 100, matchLabels.length)
+  ]}, options: { ...common, scales: { y: { min: 0, max: 100, ticks: { callback: (v) => v + "%" } } } } });
 });
 </script>
 </body>

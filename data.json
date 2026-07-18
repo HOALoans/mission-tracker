@@ -61,9 +61,16 @@
     "goal": "Maintain ≥ 1,621 affiliated clinicians by 2028"
   },
   "residency": {
-    "source": "NRMP Match results, annual each March (program-level); MAHEC + Mission/HCA GME programs",
-    "latestReported": { "classSize": 75, "note": "residents & fellows welcomed, most recent reported class" },
-    "goal": "100% fill in main Match, no SOAP reliance",
+    "source": "NRMP Main Match Program Results (Mountain AHEC-NC Asheville, institution 3023); all program tracks aggregated; main Match only (pre-SOAP)",
+    "sourceUrl": "https://www.nrmp.org/wp-content/uploads/2026/03/Main_Match_Program_Results_2022-2026.pdf",
+    "byYear": {
+      "2022": { "quota": 67, "filled": 54, "fillPct": 81 },
+      "2023": { "quota": 68, "filled": 65, "fillPct": 96 },
+      "2024": { "quota": 71, "filled": 62, "fillPct": 87 },
+      "2025": { "quota": 73, "filled": 71, "fillPct": 97 },
+      "2026": { "quota": 73, "filled": 59, "fillPct": 81, "note": "IM filled 10/18; FM Hendersonville 3/6; Psychiatry 4/6" }
+    },
+    "goal": "100% main-Match fill by 2028",
     "nextDataPoint": "March 2027"
   },
   "notReportable": {

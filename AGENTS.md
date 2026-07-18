@@ -17,12 +17,12 @@ Dashboard tracking Mission Hospital (Asheville, NC — CMS CCN **340002**, HCA-o
 | Good vs bad experiences | Proxy only | HCAHPS rated 9–10 vs ≤6 | Quarterly |
 | Nurse counts | Proxy | Cost-report staff-to-bed ratio (9.1 in 2018 → 4.7 in 2023) | Annual, ~1yr lag |
 | % travelers | Proxy | Cost report Worksheet S-3 contract-labor hours; news estimates (~40% in 2024) | Annual |
-| Residency fill | Yes | NRMP Match results (MAHEC/Mission GME) | Each March |
+| Residency fill | Yes | NRMP Program Results (Mountain AHEC–Asheville aggregate) | Each March |
 | Physician retention | Proxy | CMS facility-affiliation count (baseline 1,621, Jul 2026) | Quarterly |
 
 ## Long-range goals (dashed reference lines + plotted 2028 triangle markers)
 
-0 IJs by 2028, sustained (year-strip goal cell) · HCAHPS 4★ by 2028 (pre-sale), 3★ interim · rated-9-10 ≥ 80% by 2028 / rated-≤6 ≤ 10% by 2028 · staff-to-bed 9 by 2028 (pre-sale) · travelers < 10% by 2028 · affiliated clinicians ≥ 1,621 by 2028 · 100% Match fill.
+0 IJs by 2028, sustained (year-strip goal cell) · HCAHPS 4★ by 2028 (pre-sale), 3★ interim · rated-9-10 ≥ 80% by 2028 / rated-≤6 ≤ 10% by 2028 · staff-to-bed 9 by 2028 (pre-sale) · travelers < 10% by 2028 · affiliated clinicians ≥ 1,621 by 2028 · Match fill 100% by 2028.
 
 ## Key history
 
