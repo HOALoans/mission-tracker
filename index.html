@@ -45,7 +45,17 @@
   .yearcell.future { background: #fff; border-style: dashed; border-color: #86efac; }
   .yearcell.future .yr { color: #059669; }
   .yearcell.future .mark { background: #ecfdf5; color: #047857; border: 1px dashed #6ee7b7; }
-  .yearcell.goal2028 { box-shadow: inset 0 0 0 1px #059669; }
+  .yearcell.goal2028 {
+    background: #ecfdf5;
+    border-style: solid;
+    border-color: #059669;
+    box-shadow: inset 0 0 0 1px #059669;
+  }
+  .yearcell.goal2028 .yr { color: #047857; font-weight: 700; }
+  .yearcell .goalcap {
+    display: block; margin-top: 4px; font-size: 0.58rem; font-weight: 700;
+    letter-spacing: 0.04em; text-transform: uppercase; color: #059669;
+  }
   .striplegend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 0.7rem; color: #64748b; margin: 4px 0 2px; }
   .striplegend span { display: inline-flex; align-items: center; gap: 5px; }
   .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
@@ -190,9 +200,11 @@ window.addEventListener("load", function () {
       if (known && count > 0) { cls += " ij"; mark = String(count); }
       else if (known) { cls += " clear"; mark = "0"; }
       else { cls += " future"; mark = "0"; }
-      if (key === String(DATA.ij.goalYear)) cls += " goal2028";
+      const isGoal = key === String(DATA.ij.goalYear);
+      if (isGoal) cls += " goal2028";
       cell.className = cls;
-      cell.innerHTML = `<span class="yr">${key}</span><span class="mark" title="${known ? (count ? count + " IJ" : "Clear") : "Goal: 0"}">${mark}</span>`;
+      const title = isGoal ? "Goal: 0 by 2028" : (known ? (count ? count + " IJ" : "Clear") : "Goal: 0");
+      cell.innerHTML = `<span class="yr">${key}</span><span class="mark" title="${title}">${mark}</span>${isGoal ? '<span class="goalcap">Goal</span>' : ''}`;
       strip.appendChild(cell);
     }
   })();
@@ -201,39 +213,44 @@ window.addEventListener("load", function () {
 
   Chart.defaults.font.size = 11;
   Chart.defaults.color = "#475569";
-  const common = { responsive: true, maintainAspectRatio: false };
+  const common = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { labels: { usePointStyle: true, boxWidth: 10 } } }
+  };
   const pad = (arr, n) => arr.concat(Array(Math.max(0, n - arr.length)).fill(null));
-  const goal = (label, value, n, dash) => ({ label: label, data: Array(n).fill(value), borderColor: "#059669", borderDash: dash || [6,4], borderWidth: 1.5, pointRadius: 0, fill: false, spanGaps: true });
+  // Flat dashed reference line (level across all years)
+  const goal = (label, value, n, dash) => ({ label: label, data: Array(n).fill(value), borderColor: "#059669", borderDash: dash || [6,4], borderWidth: 1.5, pointRadius: 0, pointStyle: "line", fill: false, spanGaps: true });
+  // Plotted 2028 goal marker (triangle at the 2028 category; no connecting line)
+  const goalPoint = (label, value, n) => {
+    const data = Array(n).fill(null);
+    data[n - 1] = value;
+    return { label, data, borderColor: "#059669", backgroundColor: "#059669", pointRadius: 7, pointHoverRadius: 9, pointStyle: "triangle", showLine: false, spanGaps: true };
+  };
   const mk = (id, cfg) => { try { new Chart(document.getElementById(id), cfg); } catch (e) { console.error(id, e); } };
 
   // Star rating trend with goals projected to 2028 (4★ target year)
   const starLabels = DATA.starTrend.labels.concat(["2026","2027","2028"]);
-  const starGoal4 = Array(starLabels.length).fill(null);
-  starGoal4[starLabels.length - 1] = 4; // 4★ goal marked at 2028
   mk("starChart", { type: "line", data: { labels: starLabels, datasets: [
     { label: "Mission summary star", data: pad(DATA.starTrend.mission, starLabels.length), borderColor: "#2563eb", backgroundColor: "#2563eb", pointRadius: 4, tension: 0.25, spanGaps: true },
     goal("Interim: national par (3★)", 3, starLabels.length, [6,4]),
-    { label: "Goal: 4★ by 2028", data: starGoal4, borderColor: "#059669", backgroundColor: "#059669", pointRadius: 7, pointStyle: "triangle", showLine: false, spanGaps: true }
+    goalPoint("Goal: 4★ by 2028", 4, starLabels.length)
   ]}, options: { ...common, scales: { y: { min: 0, max: 5, ticks: { stepSize: 1 } } } } });
 
   // Staff-to-bed with 2028 goal marker (same pattern as 4★ HCAHPS target)
   const staffLabels = DATA.staffRatio.labels.concat(["2024","2025","2026","2027","2028"]);
-  const staffGoal9 = Array(staffLabels.length).fill(null);
-  staffGoal9[staffLabels.length - 1] = 9; // goal of 9 marked at 2028
   mk("staffChart", { type: "line", data: { labels: staffLabels, datasets: [
     { label: "Staff per bed", data: pad(DATA.staffRatio.ratio, staffLabels.length), borderColor: "#b45309", backgroundColor: "#b45309", pointRadius: 5, spanGaps: true },
     goal("Pre-sale reference (~9)", 9, staffLabels.length, [6,4]),
-    { label: "Goal: 9 by 2028", data: staffGoal9, borderColor: "#059669", backgroundColor: "#059669", pointRadius: 7, pointStyle: "triangle", showLine: false, spanGaps: true }
+    goalPoint("Goal: 9 by 2028", 9, staffLabels.length)
   ]}, options: { ...common, scales: { y: { min: 0, max: 10 } } } });
 
   // Traveler share with 2028 goal marker (same pattern as staff-to-bed / 4★)
   const travLabels = DATA.travelers.labels.concat(["2025","2026","2027","2028"]);
-  const travGoal10 = Array(travLabels.length).fill(null);
-  travGoal10[travLabels.length - 1] = 10; // under 10% goal marked at 2028
   mk("travelerChart", { type: "line", data: { labels: travLabels, datasets: [
     { label: "% traveler/contract nurses", data: pad(DATA.travelers.pct, travLabels.length), borderColor: "#b45309", backgroundColor: "#b45309", pointRadius: 5, spanGaps: true },
     goal("Industry norm (<10%)", 10, travLabels.length),
-    { label: "Goal: under 10% by 2028", data: travGoal10, borderColor: "#059669", backgroundColor: "#059669", pointRadius: 7, pointStyle: "triangle", showLine: false, spanGaps: true }
+    goalPoint("Goal: under 10% by 2028", 10, travLabels.length)
   ]}, options: { ...common, scales: { y: { min: 0, max: 60 } } } });
 
   mk("hcahpsChart", { type: "bar", data: { labels: DATA.hcahps.measures, datasets: [
@@ -243,19 +260,16 @@ window.addEventListener("load", function () {
 
   // Good vs bad proxy with 2028 goal markers (80% high / 10% low)
   const gbLabels = DATA.goodBad.labels.concat(["Sep 2026","Dec 2026","Mar 2027","2028"]);
-  const gbGoalHigh = Array(gbLabels.length).fill(null);
-  const gbGoalLow = Array(gbLabels.length).fill(null);
-  gbGoalHigh[gbLabels.length - 1] = 80; // high ≥ 80% by 2028
-  gbGoalLow[gbLabels.length - 1] = 10;  // low ≤ 10% by 2028
   mk("goodBadChart", { type: "line", data: { labels: gbLabels, datasets: [
     { label: "Rated 9–10 (%)", data: pad(DATA.goodBad.high, gbLabels.length), borderColor: "#2563eb", backgroundColor: "#2563eb", pointRadius: 5, spanGaps: true },
     { label: "Rated ≤6 (%)", data: pad(DATA.goodBad.low, gbLabels.length), borderColor: "#dc2626", backgroundColor: "#dc2626", pointRadius: 5, spanGaps: true },
     goal("Goal high (≥80%)", 80, gbLabels.length),
     goal("Goal low (≤10%)", 10, gbLabels.length, [2,3]),
-    { label: "Goal: 80% high by 2028", data: gbGoalHigh, borderColor: "#059669", backgroundColor: "#059669", pointRadius: 7, pointStyle: "triangle", showLine: false, spanGaps: true },
-    { label: "Goal: 10% low by 2028", data: gbGoalLow, borderColor: "#059669", backgroundColor: "#059669", pointRadius: 7, pointStyle: "triangle", showLine: false, spanGaps: true }
+    goalPoint("Goal: 80% high by 2028", 80, gbLabels.length),
+    goalPoint("Goal: 10% low by 2028", 10, gbLabels.length)
   ]}, options: { ...common, scales: { y: { min: 0, max: 100 } } } });
 
+  // Physicians: hold baseline only (no numeric 2028 target — do not invent one)
   const phLabels = DATA.physicians.labels.concat(["Oct 2026","Jan 2027","Apr 2027"]);
   mk("physChart", { type: "line", data: { labels: phLabels, datasets: [
     { label: "Affiliated clinicians", data: pad(DATA.physicians.count, phLabels.length), borderColor: "#2563eb", backgroundColor: "#2563eb", pointRadius: 5, spanGaps: true },
